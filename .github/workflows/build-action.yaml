@@ -1,0 +1,22 @@
+name: build-action
+on: [push]
+jobs:
+  run-maven-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+    name: Build with Python ${{ matrix.python }} on ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2            # checks out of repository and download it to the runner
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1  # installing graphviz
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: 'x64'
+      - run: pip3 install nox
+      - run: nox

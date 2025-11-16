@@ -11,7 +11,7 @@ FILES_WITH_TESTS = "noxfile.py", "pycodevinci.py", "codevinci", "tests"
 ENV = {"PYTHONPATH": str(Path.cwd())}
 
 
-def install_dependencies(session):
+def install_dependencies(session: nox.Session):
     """Installing dependencies from pyroject.toml."""
     with open("pyproject.toml") as handle:
         content = tomllib.loads(handle.read())
@@ -19,35 +19,35 @@ def install_dependencies(session):
 
 
 @nox.session
-def requirements(session):
+def requirements(session: nox.Session):
     """Generate requirements.txt file"""
     session.install("pip-tools")
     session.run("pip-compile", "pyproject.toml")
 
 
 @nox.session
-def audit(session):
+def audit(session: nox.Session):
     """Checking for vulnerabilities in libraries."""
     session.install("pip-audit")
     session.run("pip-audit", "-r", "requirements.txt")
 
 
 @nox.session
-def black(session):
+def black(session: nox.Session):
     """Run black for source code formatting."""
     session.install("black")
     session.run("black", *FILES_WITH_TESTS, env=ENV)
 
 
 @nox.session
-def bandit(session):
+def bandit(session: nox.Session):
     """Run bad for security analysis."""
     session.install("bandit")
     session.run("bandit", "-r", *FILES, env=ENV)
 
 
 @nox.session
-def ruff(session):
+def ruff(session: nox.Session):
     """Run ruff static code analysis."""
     # read here: https://docs.astral.sh/ruff/
     session.install("ruff")
@@ -55,7 +55,7 @@ def ruff(session):
 
 
 @nox.session
-def pyright(session):
+def pyright(session: nox.Session):
     """Run pyright static code analysis."""
     # read here: https://microsoft.github.io/pyright/#/
     session.install("pyright", "nox")
@@ -64,7 +64,7 @@ def pyright(session):
 
 
 @nox.session
-def radon(session):
+def radon(session: nox.Session):
     """Running complexity analysis."""
     session.install("radon")
     session.run("radon", "cc", "--min=B", "--total-average", *FILES, env=ENV)
@@ -72,7 +72,7 @@ def radon(session):
 
 
 @nox.session
-def interrogate(session):
+def interrogate(session: nox.Session):
     """Verify the source code documentation."""
     # read here: https://github.com/econchick/interrogate
     session.install("interrogate[png]")
@@ -93,7 +93,7 @@ def generate_classes_view(session):
 
 
 @nox.session
-def pdoc(session):
+def pdoc(session: nox.Session):
     """Generating HTML documentation."""
     # read here: https://pdoc3.github.io/pdoc/
     session.install("pdoc")
@@ -102,14 +102,14 @@ def pdoc(session):
 
 
 @nox.session
-def build(session):
+def build(session: nox.Session):
     """Build package."""
     session.install("build")
     session.run("python", "-m", "build", "--wheel", "--sdist", ".", env=ENV)
 
 
 @nox.session
-def pytest(session):
+def pytest(session: nox.Session):
     """Running unittests."""
     session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-benchmark")
     install_dependencies(session)
@@ -125,3 +125,13 @@ def pytest(session):
         "--junit-xml=unitTest.xml",
         env=ENV,
     )
+
+
+@nox.session(python=False)
+def clean(session: nox.Session) -> None:
+    """Cleanup temporary files and folders.
+
+    Args:
+        session (nox.Session): nox session.
+    """
+    session.run("git", "clean", "-fdX")

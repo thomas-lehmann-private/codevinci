@@ -1,0 +1,11 @@
+__pycache__/
+build/
+codevinci.egg-info/
+dist/
+htmlcov/
+.ruff_cache/
+.benchmarks/
+.pytest_cache/
+unitTests.xml
+.coverage
+requirements.txt
