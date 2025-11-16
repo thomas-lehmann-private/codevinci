@@ -1,0 +1,127 @@
+"""Module noxfile."""
+
+import tomllib
+from pathlib import Path
+
+import nox
+
+FILES = "noxfile.py", "generate_class_diagram.py", "codevinci"
+FILES_WITH_TESTS = "noxfile.py", "pycodevinci.py", "codevinci", "tests"
+
+ENV = {"PYTHONPATH": str(Path.cwd())}
+
+
+def install_dependencies(session):
+    """Installing dependencies from pyroject.toml."""
+    with open("pyproject.toml") as handle:
+        content = tomllib.loads(handle.read())
+        session.install(*content["project"]["dependencies"])
+
+
+@nox.session
+def requirements(session):
+    """Generate requirements.txt file"""
+    session.install("pip-tools")
+    session.run("pip-compile", "pyproject.toml")
+
+
+@nox.session
+def audit(session):
+    """Checking for vulnerabilities in libraries."""
+    session.install("pip-audit")
+    session.run("pip-audit", "-r", "requirements.txt")
+
+
+@nox.session
+def black(session):
+    """Run black for source code formatting."""
+    session.install("black")
+    session.run("black", *FILES_WITH_TESTS, env=ENV)
+
+
+@nox.session
+def bandit(session):
+    """Run bad for security analysis."""
+    session.install("bandit")
+    session.run("bandit", "-r", *FILES, env=ENV)
+
+
+@nox.session
+def ruff(session):
+    """Run ruff static code analysis."""
+    # read here: https://docs.astral.sh/ruff/
+    session.install("ruff")
+    session.run("ruff", "check", env=ENV)
+
+
+@nox.session
+def pyright(session):
+    """Run pyright static code analysis."""
+    # read here: https://microsoft.github.io/pyright/#/
+    session.install("pyright", "nox")
+    install_dependencies(session)
+    session.run("pyright", env=ENV)
+
+
+@nox.session
+def radon(session):
+    """Running complexity analysis."""
+    session.install("radon")
+    session.run("radon", "cc", "--min=B", "--total-average", *FILES, env=ENV)
+    session.run("radon", "mi", "-s", *FILES_WITH_TESTS, env=ENV)
+
+
+@nox.session
+def interrogate(session):
+    """Verify the source code documentation."""
+    # read here: https://github.com/econchick/interrogate
+    session.install("interrogate[png]")
+    session.run("interrogate", "-v", "--fail-under=100", *FILES_WITH_TESTS, env=ENV)
+
+
+@nox.session(python=["3.12", "3.13"], default=False)
+def generate_classes_view(session):
+    """Generate the class view of the package itself."""
+    install_dependencies(session)
+    session.run(
+        "python",
+        "pycodevinci.py",
+        "--package-path",
+        "codevinci",
+        env=ENV,
+    )
+
+
+@nox.session
+def pdoc(session):
+    """Generating HTML documentation."""
+    # read here: https://pdoc3.github.io/pdoc/
+    session.install("pdoc")
+    install_dependencies(session)
+    session.run("pdoc", "codevinci", "-o", "docs", env=ENV)
+
+
+@nox.session
+def build(session):
+    """Build package."""
+    session.install("build")
+    session.run("python", "-m", "build", "--wheel", "--sdist", ".", env=ENV)
+
+
+@nox.session
+def pytest(session):
+    """Running unittests."""
+    session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-benchmark")
+    install_dependencies(session)
+    session.run(
+        "pytest",
+        "tests",
+        "-v",
+        "--doctest-modules",
+        "--cov=codevinci",
+        "--cov-fail-under=94",
+        "--cov-report=html",
+        "--cov-branch",
+        "--junit-xml=unitTest.xml",
+        env=ENV,
+    )

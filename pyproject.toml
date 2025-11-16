@@ -1,0 +1,36 @@
+[project]
+name = "codevinci"
+version = "1.0.0"
+description = "code analysis visualizing modules, classed and dependencies and providing documentation for code as HTML."
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Thomas Lehmann", email = "tlehmann@posteo.de" }
+]
+dependencies = [
+    "click>=8.3.0",
+    "graphviz>=0.21"
+]
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[tool.pyright]
+include = ["pyclass2graph", "noxfile.py"]
+
+[tool.ruff]
+line-length = 100
+indent-width = 4

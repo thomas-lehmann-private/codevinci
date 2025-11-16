@@ -1,0 +1,1 @@
+"""Package pyclass2graph."""
