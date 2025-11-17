@@ -114,23 +114,24 @@ def pytest(session: nox.Session):
     session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
     install_dependencies(session)
     session.run(
-        "pytest",
-        "codevinci",
-        "tests",
-        "-v",
-        "--doctest-modules",
-        "--cov=codevinci",
-        "--cov-fail-under=94",
-        "--cov-report=html",
-        "--cov-branch",
-        "--junit-xml=unitTests.xml",
+        'pytest',
+        'codevinci',
+        'tests',
+        '-v',
+        '--doctest-modules',
+        '--cov=codevinci',
+        '--cov-fail-under=94',
+        '--cov-report=xml',
+        '--cov-report=html',
+        '--cov-branch',
+        '--junit-xml=unitTests.xml',
         env=ENV,
     )
     # separate run for code speed
     session.run("pytest", "tests", "--codspeed", env=ENV)
 
 
-@nox.session(python=False)
+@nox.session(python=False, default=False)
 def clean(session: nox.Session) -> None:
     """Cleanup temporary files and folders.
 

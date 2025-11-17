@@ -8,5 +8,6 @@ htmlcov/
 .codspeed/
 .pytest_cache/
 unitTests.xml
+coverage.xml
 .coverage
 requirements.txt

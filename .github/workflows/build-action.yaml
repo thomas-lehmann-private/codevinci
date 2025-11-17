@@ -20,3 +20,7 @@ jobs:
           architecture: 'x64'
       - run: pip3 install nox
       - run: nox
+      - uses: codecov/codecov-action@v5 # publishing code coverage results
+        with:
+          file: coverage.xml
+          name: codecov for Python ${{ matrix.python }} on ${{ matrix.os }}
