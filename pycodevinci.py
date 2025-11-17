@@ -21,16 +21,7 @@ def initialize_logging():
     logging.getLogger().addHandler(handler)
 
 
-# TODO: --aggregated-dependencies umsetzen
-# TODO: Return Type von Methoden ergänzen (inklusive Dependencies)
-# TODO: Benchmark der Generierung des Digrams je Ausgabeformat (https://pytest-benchmark.readthedocs.io/en/latest/)
-# TODO: Mkdocs für übergreifende Dokumentation
 # TODO: Installer (wheel); schauen wie das mit dem Script funktioniert.
-# TODO: (final) Github Repository (Workflows)
-# TODO: Im PYPI veröffentlichen
-# TODO: statische Methoden als Kursiv darstellen
-# TODO: abstrakte Methoden anders darstellen (noch zu prüfen was geeignet ist)
-# TODO: (nice to have) Darstelling von Komplexität auf Ebene der Klasse und auf Ebene der Methode
 
 
 @click.command()

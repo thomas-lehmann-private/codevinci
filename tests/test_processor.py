@@ -73,7 +73,7 @@ def test_generator_with_graphviz_for_svg(monkeypatch):
 
     options = GeneratorOptions(GeneratorOutputFormat.SVG, "classes.svg")
     processor = Processor(options)
-    processor.process("pyclass2graph")
+    processor.process("codevinci")
 
     result = written_data.get("data")
     root = ET.fromstring(result.decode("utf-8"))

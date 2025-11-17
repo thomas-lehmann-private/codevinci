@@ -20,3 +20,9 @@ def test_parser():
     assert len(found_classes) == 1
     assert found_classes[0].get_name() == "Parser"
     assert len(found_classes[0].get_methods()) > 0
+
+
+def test_parser_benchmark(benchmark):
+    """Benchmark of Parser.parse."""
+    parser = Parser()
+    benchmark(parser.parse, "codevinci/parser")

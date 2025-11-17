@@ -1,4 +1,27 @@
-"""Module tools."""
+"""Module tools.
+
+The MIT License
+
+Copyright 2025 Thomas Lehmann.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""
 
 import ast
 from typing import Any, Generator, Tuple
@@ -7,17 +30,41 @@ from codevinci.files import Files
 
 
 class ParserTools:
-    """Hilfstool zum Erstellen eines Parsers aus einer Datei."""
+    """Basic helper for parsing ast."""
 
     @staticmethod
     def from_file(path: str) -> Any:
-        """Parse AST for a given file."""
+        """Parse AST for a given file.
+
+        Args:
+            path: path and name of Python file to get ast tree from.
+
+        Example:
+            >>> tree = ParserTools.from_file(__file__)
+            >>> for node in ast.walk(tree):
+            ...     if isinstance(node, ast.ClassDef):
+            ...         print(node.name)
+            ParserTools
+        """
         with open(path, "r", encoding="utf-8") as handle:
             return ast.parse(handle.read(), filename=path)
 
     @staticmethod
     def find_all_classes(path: str) -> Generator[Tuple[str, ast.ClassDef], None, None]:
-        """Find all classes for given package path."""
+        """Find all classes for given package path.
+
+        Args:
+            path: path to start searching for Python files (modules)
+
+        Returns:
+            Generator with tuple of path and filename of module and
+            the ast node for the found class.
+
+        Example:
+            >>> nodes = list(ParserTools.find_all_classes('.'))
+            >>> names = [node.name for _, node in nodes]
+            >>> assert 'ParserTools' in names
+        """
         for file in Files.scan(path):
             tree = ParserTools.from_file(file)
             for node in ast.walk(tree):

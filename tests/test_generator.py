@@ -26,6 +26,16 @@ def test_graphviz_generator_for_svg():
     assert root.tag.endswith("svg")
 
 
+def test_graphviz_generator_for_svg_benchmark(benchmark):
+    """Benchmark of graphviz generator for svg."""
+    parser = Parser()
+    moduleModels = parser.parse(PACKAGE_PATH)
+
+    options = GeneratorOptions(GeneratorOutputFormat.SVG, str(Path.cwd()))
+    generator = GraphvizClassGenerator(options)
+    benchmark(generator.generate, moduleModels)
+
+
 def test_graphviz_generator_for_source():
     """Testing of graphviz generator for source code."""
     parser = Parser()

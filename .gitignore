@@ -5,6 +5,7 @@ dist/
 htmlcov/
 .ruff_cache/
 .benchmarks/
+.codspeed/
 .pytest_cache/
 unitTests.xml
 .coverage

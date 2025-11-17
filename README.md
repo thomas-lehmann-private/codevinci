@@ -1,3 +1,5 @@
+[![build-action](https://github.com/thomas-lehmann-private/codevinci/actions/workflows/build-action.yaml/badge.svg)](https://github.com/thomas-lehmann-private/codevinci/actions/workflows/build-action.yaml)
+
 ## What is CodeVinci?
 
 CodeVinci is a Python source code analysis tool designed to generate clear, expressive diagrams of your project’s internal structure. By parsing Python modules, it extracts and visualizes:

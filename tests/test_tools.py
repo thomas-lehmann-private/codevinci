@@ -16,6 +16,11 @@ def test_find_all_classes():
     assert "ParserTools" in class_names
 
 
+def test_find_all_classes_benchmark(benchmark):
+    """Benchmark for ParserTools.find_all_classes."""
+    benchmark(ParserTools.find_all_classes, PACKAGE_PATH)
+
+
 def test_find_all_bases():
     """Testing of parsing all bases of a class node."""
     for _, node in ParserTools.find_all_classes(PACKAGE_PATH):
@@ -23,6 +28,14 @@ def test_find_all_bases():
             bases = list(ParserTools.find_all_bases(node))
             assert len(bases) == 1
             assert "AbstractBaseModel" in bases
+            break
+
+
+def test_find_all_bases_benchmark(benchmark):
+    """Benchmark for ParserTools.find_all_classes."""
+    for _, node in ParserTools.find_all_classes(PACKAGE_PATH):
+        if node.name == "ClassModel":
+            benchmark(ParserTools.find_all_bases, node)
             break
 
 
@@ -37,6 +50,14 @@ def test_find_all_methods():
     # probe tests
     assert "__init__" in names
     assert "get_name" in names
+
+
+def test_find_all_methods_benchmark(benchmark):
+    """Benchmark for ParserTools.find_all_methods."""
+    for _, node in ParserTools.find_all_classes(PACKAGE_PATH):
+        if node.name == "ClassModel":
+            benchmark(ParserTools.find_all_methods, node)
+            break
 
 
 def test_find_all_instance_attributes():
@@ -54,3 +75,8 @@ def test_find_all_instance_attributes():
     assert result[1][1] == "str"
     assert result[2][0] == "__methods"
     assert result[2][1] == "list[MethodModel]"
+
+
+def test_find_all_instance_attributes_benchmark(benchmark):
+    """Benchmark for ParserTools.find_all_instance_attributes."""
+    benchmark(ParserTools.find_all_instance_attributes, PACKAGE_PATH)

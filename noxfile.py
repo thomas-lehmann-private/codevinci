@@ -5,7 +5,7 @@ from pathlib import Path
 
 import nox
 
-FILES = "noxfile.py", "generate_class_diagram.py", "codevinci"
+FILES = "noxfile.py", "pycodevinci.py", "codevinci"
 FILES_WITH_TESTS = "noxfile.py", "pycodevinci.py", "codevinci", "tests"
 
 ENV = {"PYTHONPATH": str(Path.cwd())}
@@ -98,7 +98,7 @@ def pdoc(session: nox.Session):
     # read here: https://pdoc3.github.io/pdoc/
     session.install("pdoc")
     install_dependencies(session)
-    session.run("pdoc", "codevinci", "-o", "docs", env=ENV)
+    session.run("pdoc", "codevinci", "-o", "build/docs/html", env=ENV)
 
 
 @nox.session
@@ -111,10 +111,11 @@ def build(session: nox.Session):
 @nox.session
 def pytest(session: nox.Session):
     """Running unittests."""
-    session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-benchmark")
+    session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
     install_dependencies(session)
     session.run(
         "pytest",
+        "codevinci",
         "tests",
         "-v",
         "--doctest-modules",
@@ -122,9 +123,11 @@ def pytest(session: nox.Session):
         "--cov-fail-under=94",
         "--cov-report=html",
         "--cov-branch",
-        "--junit-xml=unitTest.xml",
+        "--junit-xml=unitTests.xml",
         env=ENV,
     )
+    # separate run for code speed
+    session.run("pytest", "tests", "--codspeed", env=ENV)
 
 
 @nox.session(python=False)
