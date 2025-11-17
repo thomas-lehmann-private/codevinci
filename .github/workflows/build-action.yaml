@@ -21,13 +21,6 @@ jobs:
       - run: pip3 install nox
       - run: nox
 
-      - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v4
-        with:
-          mode: instrumentation
-          run: nox -s codspeed
-          token: ${{ secrets.CODSPEED_TOKEN }}
-
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
