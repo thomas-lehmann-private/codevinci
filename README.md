@@ -1,5 +1,4 @@
 [![build-action](https://github.com/thomas-lehmann-private/codevinci/actions/workflows/build-action.yaml/badge.svg)](https://github.com/thomas-lehmann-private/codevinci/actions/workflows/build-action.yaml)
-
 [![codecov](https://codecov.io/gh/thomas-lehmann-private/codevinci/graph/badge.svg?token=YXI9F79GID)](https://codecov.io/gh/thomas-lehmann-private/codevinci)
 
 ## What is CodeVinci?

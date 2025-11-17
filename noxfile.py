@@ -111,7 +111,7 @@ def build(session: nox.Session):
 @nox.session
 def pytest(session: nox.Session):
     """Running unittests."""
-    session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
+    session.install("pytest", "pytest-cov", "pytest-randomly")
     install_dependencies(session)
     session.run(
         'pytest',
@@ -127,6 +127,13 @@ def pytest(session: nox.Session):
         '--junit-xml=unitTests.xml',
         env=ENV,
     )
+
+
+@nox.session(default=False)
+def codspeed(session: nox.Session):
+    """Running codspeed."""
+    session.install("pytest", "pytest-codspeed")
+    install_dependencies(session)
     # separate run for code speed
     session.run("pytest", "tests", "--codspeed", env=ENV)
 
