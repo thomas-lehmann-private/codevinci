@@ -24,3 +24,5 @@ jobs:
         with:
           file: coverage.xml
           name: codecov for Python ${{ matrix.python }} on ${{ matrix.os }}
+          with:
+            token: ${{ secrets.CODECOV_TOKEN }}
