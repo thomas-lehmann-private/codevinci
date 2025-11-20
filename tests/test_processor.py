@@ -16,14 +16,16 @@ import pytest
 
 
 @pytest.mark.parametrize(
-    "fmt,expected_filename",
+    "fmt,expected_filename,write_mode",
     [
-        (GeneratorOutputFormat.SVG, "classes.svg"),
-        (GeneratorOutputFormat.PNG, "classes.png"),
-        (GeneratorOutputFormat.SOURCE, "classes.source"),
+        (GeneratorOutputFormat.SVG, "classes.svg", "wb"),
+        (GeneratorOutputFormat.PNG, "classes.png", "wb"),
+        (GeneratorOutputFormat.SOURCE, "classes.source", "w"),
     ],
 )
-def test_generator_with_graphviz_check_write(monkeypatch, fmt, expected_filename):
+def test_generator_with_graphviz_check_write(
+    monkeypatch, fmt, expected_filename, write_mode
+):
     """Testing of processor usage with focus on writing content."""
     fake_content = b"<svg></svg>"
     monkeypatch.setattr(
@@ -38,7 +40,7 @@ def test_generator_with_graphviz_check_write(monkeypatch, fmt, expected_filename
     processor = Processor(options)
     processor.process("codevinci")
 
-    mocked_open.assert_called_once_with("./" + expected_filename, "wb")
+    mocked_open.assert_called_once_with("./" + expected_filename, write_mode)
     mocked_open().write.assert_called_once_with(fake_content)
 
 

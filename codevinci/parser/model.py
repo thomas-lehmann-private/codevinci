@@ -20,9 +20,10 @@ class ModelType(Enum):
 class DependencyType(Enum):
     """Types of dependencies."""
 
-    BASE = 1
-    METHOD_ARGUMENT = 2
-    INSTANCE_ATTRIBUTE = 3
+    BASE_CLASS = 1
+    METHOD_ARGUMENT_TYPE = 2
+    INSTANCE_ATTRIBUTE_TYPE = 3
+    RETURN_TYPE = 4
 
 
 class Origin(Enum):

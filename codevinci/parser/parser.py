@@ -1,9 +1,11 @@
 """Module parser."""
 
 from logging import getLogger, Logger
+from typing import Generator, Iterable
 
 from .tools import ParserTools
 from .model import (
+    AbstractBaseModel,
     ClassModel,
     InstanceAttributeModel,
     DependencyModel,
@@ -54,6 +56,20 @@ class Parser:
         # provide final results
         return self.__moduleModels
 
+    def create_dependencies(
+        self,
+        names: Iterable[str],
+        sourceModel: AbstractBaseModel,
+        dependencyType: DependencyType,
+    ) -> Generator[DependencyModel, None, None]:
+        """Create dependencies when a class of given packages is involved."""
+        for name in names:
+            destinationClassModel = self.__find_class_model_by_name(name)
+            if destinationClassModel:
+                yield DependencyModel(
+                    sourceModel, destinationClassModel, dependencyType
+                )
+
     def parse_methods(self) -> None:
         """Parse methods and register it to the relating class."""
         for parsedClass in self.__parsedClasses:
@@ -63,7 +79,12 @@ class Parser:
                 classModel = parsedClass["model"]
                 classModel.add_method(methodModel)
 
-                methodModel.set_return_type(ParserTools.find_method_return_type(node))
+                return_type, names = ParserTools.find_method_return_type(node)
+                methodModel.set_return_type(return_type)
+                for dependency in self.create_dependencies(
+                    names, classModel, DependencyType.RETURN_TYPE
+                ):
+                    methodModel.add_dependency(dependency)
 
                 for (
                     argument_name,
@@ -75,16 +96,10 @@ class Parser:
                     )
                     methodModel.add_argument(methodArgumentModel)
 
-                    for name in names:
-                        destinationClassModel = self.__find_class_model_by_name(name)
-                        if destinationClassModel:
-                            methodModel.add_dependency(
-                                DependencyModel(
-                                    methodModel,
-                                    destinationClassModel,
-                                    DependencyType.METHOD_ARGUMENT,
-                                )
-                            )
+                    for dependency in self.create_dependencies(
+                        names, methodModel, DependencyType.METHOD_ARGUMENT_TYPE
+                    ):
+                        methodModel.add_dependency(dependency)
 
     def parse_instance_attributes(self) -> None:
         """Parse instance attributes and register it to the relating class."""
@@ -104,18 +119,12 @@ class Parser:
                         )
                         classModel.add_attribute(instanceAttributeModel)
 
-                        for name in names:
-                            destinationClassModel = self.__find_class_model_by_name(
-                                name
-                            )
-                            if destinationClassModel:
-                                instanceAttributeModel.add_dependency(
-                                    DependencyModel(
-                                        instanceAttributeModel,
-                                        destinationClassModel,
-                                        DependencyType.INSTANCE_ATTRIBUTE,
-                                    )
-                                )
+                        for dependency in self.create_dependencies(
+                            names,
+                            instanceAttributeModel,
+                            DependencyType.INSTANCE_ATTRIBUTE_TYPE,
+                        ):
+                            instanceAttributeModel.add_dependency(dependency)
 
     def parse_bases(self) -> None:
         """Parse for base class and register it as dependency to the relating class."""
@@ -132,7 +141,7 @@ class Parser:
                     sourceModel = parsedClass["model"]
                     sourceModel.add_base(
                         DependencyModel(
-                            sourceModel, destinationModel, DependencyType.BASE
+                            sourceModel, destinationModel, DependencyType.BASE_CLASS
                         )
                     )
 

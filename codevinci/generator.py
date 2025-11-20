@@ -134,14 +134,16 @@ class GraphvizClassGenerator(AbstractClassGenerator):
     def generate_dependencies(self, parent: graphviz.graphs.Digraph):
         """Generate diagram part for dependencies."""
         for dependency in self.__dependencies:
-            if dependency.get_dependency_type() == DependencyType.BASE:
+            if dependency.get_dependency_type() == DependencyType.BASE_CLASS:
                 if dependency.get_destination_model().get_name() not in ["Enum", "ABC"]:
                     parent.edge(
                         dependency.get_source_model().get_name(),
                         dependency.get_destination_model().get_name(),
                         "base",
                     )
-            elif dependency.get_dependency_type() == DependencyType.METHOD_ARGUMENT:
+            elif (
+                dependency.get_dependency_type() == DependencyType.METHOD_ARGUMENT_TYPE
+            ):
                 class_name = dependency.get_source_model().get_owner().get_name()
                 method_name = dependency.get_source_model().get_name()
                 parent.edge(
@@ -149,7 +151,10 @@ class GraphvizClassGenerator(AbstractClassGenerator):
                     dependency.get_destination_model().get_name(),
                     "depends",
                 )
-            elif dependency.get_dependency_type() == DependencyType.INSTANCE_ATTRIBUTE:
+            elif (
+                dependency.get_dependency_type()
+                == DependencyType.INSTANCE_ATTRIBUTE_TYPE
+            ):
                 class_name = dependency.get_source_model().get_owner().get_name()
                 attribute_name = dependency.get_source_model().get_name()
                 parent.edge(

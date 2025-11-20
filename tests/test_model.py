@@ -61,15 +61,15 @@ def test_dependency_model():
     """Testing of DependencyModel class."""
     classModel1 = ClassModel("source")
     classModel2 = ClassModel("destination")
-    dependency = DependencyModel(classModel1, classModel2, DependencyType.BASE)
+    dependency = DependencyModel(classModel1, classModel2, DependencyType.BASE_CLASS)
     assert dependency.get_model_type() == ModelType.DEPENDENCY
-    assert dependency.get_dependency_type() == DependencyType.BASE
+    assert dependency.get_dependency_type() == DependencyType.BASE_CLASS
     assert dependency.get_origin() == Origin.PACKAGE
     assert dependency.get_source_model() == classModel1
     assert dependency.get_destination_model() == classModel2
     assert (
         str(dependency)
-        == "DependencyModel(ClassModel(source), ClassModel(destination),DependencyType.BASE)"
+        == "DependencyModel(ClassModel(source), ClassModel(destination),DependencyType.BASE_CLASS)"
     )
 
     with pytest.raises(NotImplementedError):

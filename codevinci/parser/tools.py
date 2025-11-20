@@ -105,11 +105,15 @@ class ParserTools:
                 yield argument_name, argument_type, set(names)
 
     @staticmethod
-    def find_method_return_type(node: ast.FunctionDef) -> str:
+    def find_method_return_type(node: ast.FunctionDef) -> Tuple[str, list[str]]:
         """Get Methods return type."""
-        if not isinstance(node.returns, ast.Name):
-            return ""
-        return node.returns.id
+        return_type: str = ""
+        names: list[str] = []
+
+        if node.returns:
+            return_type, names = AnnotationParser.resolve(node.returns)
+
+        return return_type, names
 
     @staticmethod
     def find_all_instance_attributes(node: ast.FunctionDef):

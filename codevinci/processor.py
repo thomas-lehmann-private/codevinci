@@ -42,5 +42,5 @@ class Processor:
                     handle.write(content)
             case GeneratorOutputFormat.SOURCE:
                 file = os.path.join(self.__options.get_output_path(), "classes.source")
-                with open(file, "wb") as handle:
+                with open(file, "w") as handle:
                     handle.write(content)
