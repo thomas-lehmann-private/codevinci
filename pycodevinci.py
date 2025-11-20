@@ -1,6 +1,7 @@
 """Script for generating a class diagram."""
 
 import logging
+import os
 from pathlib import Path
 
 from codevinci.processor import Processor
@@ -35,12 +36,15 @@ def initialize_logging():
 @click.option(
     "--output-path",
     type=str,
-    default=str(Path.cwd()),
+    default=str(Path.joinpath(Path.cwd(), "docs")),
     help="where to write the classes diagramm to (default: current path)",
 )
 def main(**options):
     """Application entry point."""
     initialize_logging()
+    # ensure that path does exist
+    os.makedirs(options["output_path"], exist_ok=True)
+
     generator_options = GeneratorOptions(
         options["output_format"], options["output_path"]
     )

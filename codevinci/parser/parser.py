@@ -63,6 +63,8 @@ class Parser:
                 classModel = parsedClass["model"]
                 classModel.add_method(methodModel)
 
+                methodModel.set_return_type(ParserTools.find_method_return_type(node))
+
                 for (
                     argument_name,
                     argument_type,

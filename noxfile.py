@@ -102,13 +102,6 @@ def pdoc(session: nox.Session):
 
 
 @nox.session
-def build(session: nox.Session):
-    """Build package."""
-    session.install("build")
-    session.run("python", "-m", "build", "--wheel", "--sdist", ".", env=ENV)
-
-
-@nox.session
 def pytest(session: nox.Session):
     """Running unittests."""
     session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
@@ -120,7 +113,7 @@ def pytest(session: nox.Session):
         "-v",
         "--doctest-modules",
         "--cov=codevinci",
-        "--cov-fail-under=94",
+        "--cov-fail-under=95",
         "--cov-report=xml",
         "--cov-report=html",
         "--cov-branch",
@@ -129,13 +122,20 @@ def pytest(session: nox.Session):
     )
 
 
-@nox.session(default=False)
+@nox.session
 def codspeed(session: nox.Session):
     """Running codspeed."""
     session.install("pytest", "pytest-codspeed")
     install_dependencies(session)
     # separate run for code speed
     session.run("pytest", "tests", "--codspeed", env=ENV)
+
+
+@nox.session
+def build(session: nox.Session):
+    """Build package."""
+    session.install("build")
+    session.run("python", "-m", "build", "--wheel", "--sdist", ".", env=ENV)
 
 
 @nox.session(python=False, default=False)

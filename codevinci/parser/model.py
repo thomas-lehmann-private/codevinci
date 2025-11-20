@@ -225,6 +225,7 @@ class MethodModel(AbstractBaseModel):
         self.__arguments: list[MethodArgumentModel] = []
         self.__dependencies: list[DependencyModel] = []
         self.__owner: ClassModel | None = None
+        self.__return_type: str = ""
 
     def __repr__(self) -> str:
         """String representation of the model (simplified)."""
@@ -269,6 +270,14 @@ class MethodModel(AbstractBaseModel):
     def get_owner(self) -> ClassModel | None:
         """Provide owner of this method."""
         return self.__owner
+
+    def set_return_type(self, return_type: str) -> None:
+        """Change return type."""
+        self.__return_type = return_type
+
+    def get_return_type(self) -> str:
+        """Provide return type."""
+        return self.__return_type
 
 
 class InstanceAttributeModel(AbstractBaseModel):

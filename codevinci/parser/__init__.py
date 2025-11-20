@@ -9,10 +9,13 @@ from .model import (
     ModuleModel,
     Origin,
 )
+
+from .annotation import AnnotationParser
 from .parser import Parser
 from .tools import ParserTools
 
 __all__ = [
+    "AnnotationParser",
     "Parser",
     "ParserTools",
     "ClassModel",

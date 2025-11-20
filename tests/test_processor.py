@@ -34,11 +34,11 @@ def test_generator_with_graphviz_check_write(monkeypatch, fmt, expected_filename
     mocked_open = mock_open()
     monkeypatch.setattr("builtins.open", mocked_open)
 
-    options = GeneratorOptions(fmt, expected_filename)
+    options = GeneratorOptions(fmt, ".")
     processor = Processor(options)
-    processor.process("pyclass2graph")
+    processor.process("codevinci")
 
-    mocked_open.assert_called_once_with(expected_filename, "wb")
+    mocked_open.assert_called_once_with("./" + expected_filename, "wb")
     mocked_open().write.assert_called_once_with(fake_content)
 
 
@@ -71,7 +71,7 @@ def test_generator_with_graphviz_for_svg(monkeypatch):
 
     monkeypatch.setattr("builtins.open", fake_open)
 
-    options = GeneratorOptions(GeneratorOutputFormat.SVG, "classes.svg")
+    options = GeneratorOptions(GeneratorOutputFormat.SVG, ".")
     processor = Processor(options)
     processor.process("codevinci")
 

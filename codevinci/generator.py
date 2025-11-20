@@ -211,6 +211,10 @@ class GraphvizClassGenerator(AbstractClassGenerator):
                 method_description += "("
                 method_description += method_argument_description
                 method_description += ")"
+
+                if methodModel.get_return_type():
+                    method_description += " : " + methodModel.get_return_type()
+
                 method_description += "</td></tr>"
 
                 self.__dependencies.extend(methodModel.get_dependencies())

@@ -27,6 +27,7 @@ import ast
 from typing import Any, Generator, Tuple
 
 from codevinci.files import Files
+from codevinci.parser.annotation import AnnotationParser
 
 
 class ParserTools:
@@ -97,11 +98,18 @@ class ParserTools:
                 names: list[str] = []
 
                 if child_node.annotation:
-                    argument_type, names = ParserTools.resolve_annotation(
+                    argument_type, names = AnnotationParser.resolve(
                         child_node.annotation
                     )
 
                 yield argument_name, argument_type, set(names)
+
+    @staticmethod
+    def find_method_return_type(node: ast.FunctionDef) -> str:
+        """Get Methods return type."""
+        if not isinstance(node.returns, ast.Name):
+            return ""
+        return node.returns.id
 
     @staticmethod
     def find_all_instance_attributes(node: ast.FunctionDef):
@@ -122,39 +130,8 @@ class ParserTools:
                 names: list[str] = []
 
                 if child_node.annotation:
-                    attribute_type, names = ParserTools.resolve_annotation(
+                    attribute_type, names = AnnotationParser.resolve(
                         child_node.annotation
                     )
 
                 yield attribute_name, attribute_type, names
-
-    @staticmethod
-    def resolve_annotation(node: ast.AST) -> Tuple[str, list[str]]:
-        """Trying to convert annotation back to code."""
-        if node is None:
-            return "", []
-
-        if isinstance(node, ast.Name):
-            return node.id, [node.id]
-
-        if isinstance(node, ast.Constant):
-            if isinstance(node.value, str):
-                return node.value, [node.value]
-            return repr(node.value), []
-
-        if isinstance(node, ast.Subscript):
-            value_str, value_refs = ParserTools.resolve_annotation(node.value)
-            slice_node = getattr(node.slice, "value", node.slice)
-            slice_str, slice_refs = ParserTools.resolve_annotation(slice_node)
-            return f"{value_str}[{slice_str}]", value_refs + slice_refs
-
-        if isinstance(node, ast.Attribute):
-            base_str, base_refs = ParserTools.resolve_annotation(node.value)
-            full_name = f"{base_str}.{node.attr}" if base_str else node.attr
-            return full_name, base_refs + [full_name]
-
-        try:
-            text = ast.unparse(node)
-        except Exception:
-            text = ast.dump(node)
-        return text, []

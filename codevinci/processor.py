@@ -1,6 +1,7 @@
 """Module processor."""
 
 from logging import getLogger, Logger
+import os
 
 from codevinci.parser import Parser
 from codevinci.generator import (
@@ -32,11 +33,14 @@ class Processor:
 
         match self.__options.get_output_format():
             case GeneratorOutputFormat.SVG:
-                with open("classes.svg", "wb") as handle:
+                file = os.path.join(self.__options.get_output_path(), "classes.svg")
+                with open(file, "wb") as handle:
                     handle.write(content)
             case GeneratorOutputFormat.PNG:
-                with open("classes.png", "wb") as handle:
+                file = os.path.join(self.__options.get_output_path(), "classes.png")
+                with open(file, "wb") as handle:
                     handle.write(content)
             case GeneratorOutputFormat.SOURCE:
-                with open("classes.source", "wb") as handle:
+                file = os.path.join(self.__options.get_output_path(), "classes.source")
+                with open(file, "wb") as handle:
                     handle.write(content)
