@@ -5,6 +5,7 @@ from codevinci.parser import (
     DependencyModel,
     DependencyType,
     MethodModel,
+    MethodType,
     ModelType,
     ModuleModel,
     Origin,
@@ -45,7 +46,13 @@ def test_method_model_basics():
     assert model.get_name() == "test"
     assert model.get_model_type() == ModelType.METHOD
     assert model.get_origin() == Origin.CLASS
+    assert model.get_method_type() == MethodType.NORMAL
     assert str(model) == "MethodModel(test)"
+
+    model.set_method_type(MethodType.STATIC)
+    assert model.get_method_type() == MethodType.STATIC
+    model.set_method_type(MethodType.ABSTRACT)
+    assert model.get_method_type() == MethodType.ABSTRACT
 
 
 def test_module_model_default():

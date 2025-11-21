@@ -1,7 +1,7 @@
 """Module model."""
 
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import Enum, auto
 from logging import getLogger, Logger
 import os
 
@@ -9,21 +9,21 @@ import os
 class ModelType(Enum):
     """Types of models."""
 
-    MODULE = 1
-    CLASS = 2
-    METHOD = 3
-    METHOD_ARGUMENT = 4
-    DEPENDENCY = 5
-    INSTANCE_ATTRIBUTE = 6
+    MODULE = auto()
+    CLASS = auto()
+    METHOD = auto()
+    METHOD_ARGUMENT = auto()
+    DEPENDENCY = auto()
+    INSTANCE_ATTRIBUTE = auto()
 
 
 class DependencyType(Enum):
     """Types of dependencies."""
 
-    BASE_CLASS = 1
-    METHOD_ARGUMENT_TYPE = 2
-    INSTANCE_ATTRIBUTE_TYPE = 3
-    RETURN_TYPE = 4
+    BASE_CLASS = auto()
+    METHOD_ARGUMENT_TYPE = auto()
+    INSTANCE_ATTRIBUTE_TYPE = auto()
+    RETURN_TYPE = auto()
 
 
 class Origin(Enum):
@@ -33,6 +33,14 @@ class Origin(Enum):
     BUILTIN = 2
     CLASS = 3
     METHOD = 4
+
+
+class MethodType(Enum):
+    """Types for methods."""
+
+    NORMAL = auto()
+    ABSTRACT = auto()
+    STATIC = auto()
 
 
 class AbstractBaseModel(ABC):
@@ -227,6 +235,7 @@ class MethodModel(AbstractBaseModel):
         self.__dependencies: list[DependencyModel] = []
         self.__owner: ClassModel | None = None
         self.__return_type: str = ""
+        self.__type: MethodType = MethodType.NORMAL
 
     def __repr__(self) -> str:
         """String representation of the model (simplified)."""
@@ -279,6 +288,14 @@ class MethodModel(AbstractBaseModel):
     def get_return_type(self) -> str:
         """Provide return type."""
         return self.__return_type
+
+    def set_method_type(self, method_type: MethodType) -> None:
+        """Change method type."""
+        self.__type = method_type
+
+    def get_method_type(self) -> MethodType:
+        """Get method type."""
+        return self.__type
 
 
 class InstanceAttributeModel(AbstractBaseModel):

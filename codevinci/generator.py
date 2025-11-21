@@ -5,7 +5,7 @@ from enum import Enum
 from logging import getLogger, Logger
 from typing import Any
 
-from codevinci.parser import ClassModel, DependencyType, ModuleModel
+from codevinci.parser import ClassModel, DependencyType, MethodType, ModuleModel
 
 import graphviz
 
@@ -212,7 +212,13 @@ class GraphvizClassGenerator(AbstractClassGenerator):
 
                 port = methodModel.get_name()
                 method_description += f"""<tr><td port="{port}" align="left">"""
-                method_description += methodModel.get_name()
+                match methodModel.get_method_type():
+                    case MethodType.NORMAL:
+                        method_description += methodModel.get_name()
+                    case MethodType.ABSTRACT:
+                        method_description += "<i>" + methodModel.get_name() + "</i>"
+                    case MethodType.STATIC:
+                        method_description += "<u>" + methodModel.get_name() + "</u>"
                 method_description += "("
                 method_description += method_argument_description
                 method_description += ")"

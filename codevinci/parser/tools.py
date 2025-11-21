@@ -139,3 +139,19 @@ class ParserTools:
                     )
 
                 yield attribute_name, attribute_type, names
+
+    @staticmethod
+    def is_abstract_method(node: ast.FunctionDef) -> bool:
+        """Checking given method to be an abstract method."""
+        for decorator in node.decorator_list:
+            if isinstance(decorator, ast.Name) and decorator.id == "abstractmethod":
+                return True
+        return False
+
+    @staticmethod
+    def is_static_method(node: ast.FunctionDef) -> bool:
+        """Checking given method to be an static method."""
+        for decorator in node.decorator_list:
+            if isinstance(decorator, ast.Name) and decorator.id == "staticmethod":
+                return True
+        return False

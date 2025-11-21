@@ -11,6 +11,7 @@ from .model import (
     DependencyModel,
     DependencyType,
     MethodModel,
+    MethodType,
     MethodArgumentModel,
     ModuleModel,
     Origin,
@@ -100,6 +101,11 @@ class Parser:
                         names, methodModel, DependencyType.METHOD_ARGUMENT_TYPE
                     ):
                         methodModel.add_dependency(dependency)
+
+                if ParserTools.is_static_method(node):
+                    methodModel.set_method_type(MethodType.STATIC)
+                elif ParserTools.is_abstract_method(node):
+                    methodModel.set_method_type(MethodType.ABSTRACT)
 
     def parse_instance_attributes(self) -> None:
         """Parse instance attributes and register it to the relating class."""
