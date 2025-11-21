@@ -1,11 +1,18 @@
 """Module generator."""
 
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from enum import Enum
 from logging import getLogger, Logger
 from typing import Any
 
-from codevinci.parser import ClassModel, DependencyType, MethodType, ModuleModel
+from codevinci.parser import (
+    ClassModel,
+    DependencyType,
+    MethodAccessType,
+    MethodType,
+    ModuleModel,
+)
 
 import graphviz
 
@@ -18,6 +25,28 @@ class GeneratorOutputFormat(Enum):
     SOURCE = 3
 
 
+@dataclass
+class ColorConfig:
+    """Configuration for colors in diagram."""
+
+    title_color: str = "#ADFF2F"
+    attributes_color: str = "#FFECC6"
+
+    public_methods_color: str = "#DFFFBE"
+    protected_methods_color: str = "#3CB371"
+    private_methods_color: str = "#f0f0f0"
+
+    def apply_override(self, key: str, value: str) -> None:
+        """Set overridden color (or store in 'extra' if unknown)."""
+        key = key.lower()
+
+        # mapping for Python keyword compatibility (class_)
+        normalized = "class_" if key == "class" else key
+
+        if hasattr(self, normalized):
+            setattr(self, normalized, value)
+
+
 class GeneratorOptions:
     """Options for a concrete generator."""
 
@@ -25,6 +54,7 @@ class GeneratorOptions:
         """Initialize generator options."""
         self.__output_format = output_format
         self.__output_path = output_path
+        self.__color_config = ColorConfig()
 
     def get_output_format(self) -> GeneratorOutputFormat:
         """Get defined output type."""
@@ -33,6 +63,10 @@ class GeneratorOptions:
     def get_output_path(self) -> str:
         """Get defined output path."""
         return self.__output_path
+
+    def get_color_config(self) -> ColorConfig:
+        """Get color config."""
+        return self.__color_config
 
 
 class AbstractClassGenerator(ABC):
@@ -104,28 +138,39 @@ class GraphvizClassGenerator(AbstractClassGenerator):
         self, parent: graphviz.graphs.Digraph, classModel: ClassModel
     ) -> None:
         """Generate diagram part for a class."""
-        method_description = self.__get_method_description(classModel)
         description = '<<table border="0" cellborder="1" cellspacing="0">'
         if classModel.is_abstract():
             description += (
-                "<tr><td><b>"
+                """<tr><td bgcolor="#00f000"><b>"""
                 + classModel.get_name()
                 + "<br/><i>Abstract Base Class</i></b></td></tr>"
             )
         elif classModel.is_enum():
             description += (
-                "<tr><td><b>"
+                """<tr><td bgcolor="#00f000"><b>"""
                 + classModel.get_name()
                 + "<br/><i>Enum Class</i></b></td></tr>"
             )
         else:
-            description += "<tr><td><b>" + classModel.get_name() + "</b></td></tr>"
+            description += (
+                """<tr><td bgcolor="#00f000"><b>"""
+                + classModel.get_name()
+                + "</b></td></tr>"
+            )
 
         attributes_description = self.__get_attributes_description(classModel)
         if attributes_description:
             description += "<tr><td>" + attributes_description + "</td></tr>"
-        if method_description:
-            description += "<tr><td>" + method_description + "</td></tr>"
+
+        for access_type in [
+            MethodAccessType.PUBLIC,
+            MethodAccessType.PROTECTED,
+            MethodAccessType.PRIVATE,
+        ]:
+            method_description = self.__get_method_description(classModel, access_type)
+            if method_description:
+                description += "<tr><td>" + method_description + "</td></tr>"
+
         description += "</table>>"
         parent.node(classModel.get_name(), description, shape="plain")
         # remember base class dependencies
@@ -173,9 +218,8 @@ class GraphvizClassGenerator(AbstractClassGenerator):
         """Generate attrinutes for classes in diagramm."""
         instance_attributes_description = ""
         if classModel.has_attributes():
-            instance_attributes_description = (
-                '<table border="0" cellborder="0" cellspacing="0">'
-            )
+            color = self.__options.get_color_config().attributes_color
+            instance_attributes_description = f"""<table border="0" cellborder="0" cellspacing="0" bgcolor="{color}">"""
             for attributeModel in classModel.get_attributes():
                 port = attributeModel.get_name()
                 instance_attributes_description += (
@@ -194,13 +238,21 @@ class GraphvizClassGenerator(AbstractClassGenerator):
 
         return instance_attributes_description
 
-    def __get_method_description(self, classModel: ClassModel) -> str:
+    def __get_method_description(
+        self, classModel: ClassModel, access_type: MethodAccessType
+    ) -> str:
         """Generate method description when given class has methods."""
         method_description = ""
-        if classModel.has_methods():
+        if classModel.has_methods(access_type):
 
-            method_description = '<table border="0" cellborder="0" cellspacing="0">'
-            for methodModel in classModel.get_methods():
+            color = self.__options.get_color_config().public_methods_color
+            if access_type == MethodAccessType.PROTECTED:
+                color = self.__options.get_color_config().protected_methods_color
+            elif access_type == MethodAccessType.PRIVATE:
+                color = self.__options.get_color_config().private_methods_color
+
+            method_description = f"""<table border="0" cellborder="0" cellspacing="0" bgcolor="{color}">"""
+            for methodModel in classModel.get_methods_by_access_type(access_type):
                 method_argument_description = ""
                 for argument in methodModel.get_arguments():
                     if len(method_argument_description) > 0:

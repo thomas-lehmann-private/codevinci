@@ -6,6 +6,7 @@ from codevinci.parser import (
     DependencyType,
     MethodModel,
     MethodType,
+    MethodAccessType,
     ModelType,
     ModuleModel,
     Origin,
@@ -40,6 +41,28 @@ def test_class_model_with_one_methods():
     assert model.get_methods()[0] == method
 
 
+def test_class_model_with_multiple_methods():
+    """Test of ClassModel with multiple methods."""
+    model = ClassModel("test")
+    model.add_method(MethodModel("__init__"))
+    model.add_method(MethodModel("get_value"))
+    model.add_method(MethodModel("_get_value"))
+    model.add_method(MethodModel("__get_value"))
+
+    methods = model.get_methods_by_access_type(MethodAccessType.ALL)
+    assert len(methods) == 4
+    methods = model.get_methods_by_access_type(MethodAccessType.PUBLIC)
+    assert methods[0].get_name() == "__init__"
+    assert methods[1].get_name() == "get_value"
+    assert len(methods) == 2
+    methods = model.get_methods_by_access_type(MethodAccessType.PROTECTED)
+    assert len(methods) == 1
+    assert methods[0].get_name() == "_get_value"
+    methods = model.get_methods_by_access_type(MethodAccessType.PRIVATE)
+    assert len(methods) == 1
+    assert methods[0].get_name() == "__get_value"
+
+
 def test_method_model_basics():
     """Test of MethodModel."""
     model = MethodModel("test")
@@ -53,6 +76,21 @@ def test_method_model_basics():
     assert model.get_method_type() == MethodType.STATIC
     model.set_method_type(MethodType.ABSTRACT)
     assert model.get_method_type() == MethodType.ABSTRACT
+
+
+@pytest.mark.parametrize(
+    "method_name,expected_access_type",
+    [
+        ("__init__", MethodAccessType.PUBLIC),
+        ("is_abstract_method", MethodAccessType.PUBLIC),
+        ("__find_class_model_by_name", MethodAccessType.PRIVATE),
+        ("_calculate_something", MethodAccessType.PROTECTED),
+    ],
+)
+def test_method_access_type(method_name, expected_access_type):
+    """Testing method access type"""
+    methodModel = MethodModel(method_name)
+    assert methodModel.get_access_type() == expected_access_type
 
 
 def test_module_model_default():

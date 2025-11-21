@@ -26,6 +26,12 @@ Similarly, CodeVinci aims to:
 
 The name reflects the tool’s mission: turning Python code into insightful, visually structured representations, much like da Vinci’s ability to transform ideas into iconic diagrams.
 
+## Codevinci Design
+
+Current design (work still in progress):
+
+![docs/design.svg](docs/design.svg)
+
 ## License
 
 CodeVinci is intended to be released under the MIT License, ensuring it remains open, flexible, and easy to integrate into both personal and professional workflows.

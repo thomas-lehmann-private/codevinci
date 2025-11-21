@@ -43,6 +43,15 @@ class MethodType(Enum):
     STATIC = auto()
 
 
+class MethodAccessType(Enum):
+    """Types of method access."""
+
+    ALL = auto()
+    PUBLIC = auto()
+    PROTECTED = auto()
+    PRIVATE = auto()
+
+
 class AbstractBaseModel(ABC):
     """Base class for models."""
 
@@ -98,13 +107,37 @@ class ClassModel(AbstractBaseModel):
         self.__methods.append(method)
         self.__logger.info(f"{method} added to {self}")
 
-    def has_methods(self) -> bool:
+    def has_methods(self, access_type: MethodAccessType = MethodAccessType.ALL) -> bool:
         """Check whether class has methods."""
-        return len(self.__methods) > 0
+        if access_type == MethodAccessType.ALL:
+            return len(self.__methods) > 0
+
+        return (
+            len(
+                [
+                    method
+                    for method in self.__methods
+                    if method.get_access_type() == access_type
+                ]
+            )
+            > 0
+        )
 
     def get_methods(self) -> list["MethodModel"]:
         """Get list of methods."""
         return self.__methods
+
+    def get_methods_by_access_type(
+        self, access_type: MethodAccessType
+    ) -> list["MethodModel"]:
+        """Get methods filtered by access type."""
+        if access_type == MethodAccessType.ALL:
+            return self.__methods
+        return [
+            method
+            for method in self.__methods
+            if method.get_access_type() == access_type
+        ]
 
     def add_base(self, base: "DependencyModel") -> None:
         """Add a base class dependency."""
@@ -296,6 +329,16 @@ class MethodModel(AbstractBaseModel):
     def get_method_type(self) -> MethodType:
         """Get method type."""
         return self.__type
+
+    def get_access_type(self) -> MethodAccessType:
+        """Get method access type (convention)."""
+        if self.__name.startswith("__"):
+            if self.__name.endswith("__"):
+                return MethodAccessType.PUBLIC
+            return MethodAccessType.PRIVATE
+        if self.__name.startswith("_"):
+            return MethodAccessType.PROTECTED
+        return MethodAccessType.PUBLIC
 
 
 class InstanceAttributeModel(AbstractBaseModel):

@@ -89,7 +89,7 @@ def generate_classes_view(session):
         "--package-path",
         "codevinci",
         "--output-format",
-        "SVG",
+        "PNG",
         env=ENV,
     )
 
