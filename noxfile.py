@@ -1,6 +1,5 @@
 """Module noxfile."""
 
-import tomllib
 from pathlib import Path
 
 import nox
@@ -9,13 +8,6 @@ FILES = "noxfile.py", "pycodevinci.py", "codevinci"
 FILES_WITH_TESTS = "noxfile.py", "pycodevinci.py", "codevinci", "tests"
 
 ENV = {"PYTHONPATH": str(Path.cwd())}
-
-
-def install_dependencies(session: nox.Session):
-    """Installing dependencies from pyroject.toml."""
-    with open("pyproject.toml") as handle:
-        content = tomllib.loads(handle.read())
-        session.install(*content["project"]["dependencies"])
 
 
 @nox.session
@@ -59,7 +51,7 @@ def pyright(session: nox.Session):
     """Run pyright static code analysis."""
     # read here: https://microsoft.github.io/pyright/#/
     session.install("pyright", "nox")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run("pyright", env=ENV)
 
 
@@ -82,7 +74,7 @@ def interrogate(session: nox.Session):
 @nox.session(python=["3.12", "3.13"], default=False)
 def generate_classes_view(session):
     """Generate the class view of the package itself."""
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run(
         "python",
         "pycodevinci.py",
@@ -99,7 +91,7 @@ def pdoc(session: nox.Session):
     """Generating HTML documentation."""
     # read here: https://pdoc3.github.io/pdoc/
     session.install("pdoc")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run("pdoc", "codevinci", "-o", "build/docs/html", env=ENV)
 
 
@@ -125,7 +117,7 @@ def mkdocs(session: nox.Session):
 def pytest(session: nox.Session):
     """Running unittests."""
     session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run(
         "pytest",
         "codevinci",
@@ -146,7 +138,7 @@ def pytest(session: nox.Session):
 def codspeed(session: nox.Session):
     """Running codspeed."""
     session.install("pytest", "pytest-codspeed")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     # separate run for code speed
     session.run("pytest", "tests", "--codspeed", env=ENV)
 

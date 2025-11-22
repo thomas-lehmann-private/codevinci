@@ -1,7 +1,10 @@
 site_name: codevinci
+site_url: https://thomas-lehmann-private.github.io/codevinci
 repo_url: https://github.com/thomas-lehmann-private/codevinci
 site_author: Thomas Lehmann
 site_description: tool for visualizing code design
+site_author: Thomas Lehmann
+
 
 nav:
   - index.md

@@ -22,6 +22,20 @@ The two constants **FILES** and **FILES_WITH_TESTS** are for different usecases 
 
 You simple execute it by calling `nox` or choosing a specific session like `nox -s black`.
 
+## The session 'requirements'
+
+The dependencies are defined in **pyproject.toml**; that's why
+we need to have a **requirements.txt** especially for the audit tool.
+
+```python
+@nox.session
+def requirements(session: nox.Session):
+    """Generate requirements.txt file"""
+    session.install("pip-tools")
+    session.run("pip-compile", "pyproject.toml")
+```
+
+
 ## The session 'audit'
 
 It does check vulnerabilities in given requirements.txt.
