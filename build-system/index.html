@@ -88,8 +88,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="codevinci" class="md-header__button md-logo" aria-label="codevinci" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -198,8 +197,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="codevinci" class="md-nav__button md-logo" aria-label="codevinci" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../logo.png" alt="logo">
 
     </a>
     codevinci
@@ -701,15 +699,14 @@
 <p>Everything starts with a build tool. I'm using <strong>nox</strong> (see <a href="https://nox.thea.codes/en/stable/">https://nox.thea.codes/en/stable/</a>). The tool allows writing individual processes each of them focusing on a specific task (session). The header of the <strong>noxfile.py</strong> look similar to following:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="sd">&quot;&quot;&quot;Module noxfile.&quot;&quot;&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">nox</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">FILES</span> <span class="o">=</span> <span class="s2">&quot;noxfile.py&quot;</span><span class="p">,</span> <span class="s2">&quot;pycodevinci.py&quot;</span><span class="p">,</span> <span class="s2">&quot;codevinci&quot;</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">FILES_WITH_TESTS</span> <span class="o">=</span> <span class="s2">&quot;noxfile.py&quot;</span><span class="p">,</span> <span class="s2">&quot;pycodevinci.py&quot;</span><span class="p">,</span> <span class="s2">&quot;codevinci&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">ENV</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;PYTHONPATH&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())}</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">nox</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">FILES</span> <span class="o">=</span> <span class="s2">&quot;noxfile.py&quot;</span><span class="p">,</span> <span class="s2">&quot;pycodevinci.py&quot;</span><span class="p">,</span> <span class="s2">&quot;codevinci&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">FILES_WITH_TESTS</span> <span class="o">=</span> <span class="s2">&quot;noxfile.py&quot;</span><span class="p">,</span> <span class="s2">&quot;pycodevinci.py&quot;</span><span class="p">,</span> <span class="s2">&quot;codevinci&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">ENV</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;PYTHONPATH&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())}</span>
 </code></pre></div>
 <p>The two constants <strong>FILES</strong> and <strong>FILES_WITH_TESTS</strong> are for different usecases and the ENV is that the package is found. The tasks in the <strong>noxfile.py</strong> are executed in given order of appearance in that file.</p>
 <p>You simple execute it by calling <code>nox</code> or choosing a specific session like <code>nox -s black</code>.</p>
@@ -751,9 +748,8 @@ we need to have a <strong>requirements.txt</strong> especially for the audit too
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@nox</span><span class="o">.</span><span class="n">session</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">ruff</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run ruff static code analysis.&quot;&quot;&quot;</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># read here: https://docs.astral.sh/ruff/</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;ruff&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ruff&quot;</span><span class="p">,</span> <span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">ENV</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;ruff&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ruff&quot;</span><span class="p">,</span> <span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">ENV</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="the-session-pyright">The session 'pyright'<a class="headerlink" href="#the-session-pyright" title="Permanent link">&para;</a></h2>
 <p>This is also a static code analysis. See <a href="https://microsoft.github.io/pyright/#/">https://microsoft.github.io/pyright/#/</a>. Especially to mention is that this tool is capable to detect mismatch of defined types (by annotation) and usage.</p>
@@ -761,7 +757,7 @@ we need to have a <strong>requirements.txt</strong> especially for the audit too
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">pyright</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run pyright static code analysis.&quot;&quot;&quot;</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;pyright&quot;</span><span class="p">,</span> <span class="s2">&quot;nox&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">install_dependencies</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;pyright&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">ENV</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="the-session-radon">The session 'radon'<a class="headerlink" href="#the-session-radon" title="Permanent link">&para;</a></h2>
@@ -787,7 +783,7 @@ we need to have a <strong>requirements.txt</strong> especially for the audit too
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">pdoc</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generating HTML documentation.&quot;&quot;&quot;</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;pdoc&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">install_dependencies</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;pdoc&quot;</span><span class="p">,</span> <span class="s2">&quot;codevinci&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;build/docs/html&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">ENV</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="the-session-mkdocs">The session 'mkdocs'<a class="headerlink" href="#the-session-mkdocs" title="Permanent link">&para;</a></h2>
@@ -818,7 +814,7 @@ really running isolated. See <a href="https://docs.pytest.org/en/stable/">https:
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">pytest</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Running unittests.&quot;&quot;&quot;</span>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;pytest&quot;</span><span class="p">,</span> <span class="s2">&quot;pytest-cov&quot;</span><span class="p">,</span> <span class="s2">&quot;pytest-randomly&quot;</span><span class="p">,</span> <span class="s2">&quot;pytest-codspeed&quot;</span><span class="p">)</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">install_dependencies</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        <span class="s2">&quot;pytest&quot;</span><span class="p">,</span>
 <a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="s2">&quot;codevinci&quot;</span><span class="p">,</span>
@@ -840,7 +836,7 @@ really running isolated. See <a href="https://docs.pytest.org/en/stable/">https:
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">codspeed</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Running codspeed.&quot;&quot;&quot;</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;pytest&quot;</span><span class="p">,</span> <span class="s2">&quot;pytest-codspeed&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">install_dependencies</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="c1"># separate run for code speed</span>
 <a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;pytest&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="s2">&quot;--codspeed&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">ENV</span><span class="p">)</span>
 </code></pre></div>
