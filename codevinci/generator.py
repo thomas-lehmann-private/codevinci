@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
 from logging import getLogger, Logger
 from typing import Any
@@ -109,6 +110,8 @@ class GraphvizClassGenerator(AbstractClassGenerator):
     def generate(self, moduleModels: list[ModuleModel]) -> Any:
         """Main entry point for processing modules."""
         dot = graphviz.Digraph("classes", comment="classes and relationships")
+        now = datetime.now().strftime("%Y-%m-%d %H:%M")
+        dot.attr('graph', label=f"""<<font point-size="50px">Design of classes</font><br/><br/>generated on {now}>""", labelloc='t')
 
         for moduleModel in moduleModels:
             self.__logger.info(f"processing module '{moduleModel.get_name()}'")

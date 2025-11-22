@@ -33,14 +33,14 @@ class Processor:
 
         match self.__options.get_output_format():
             case GeneratorOutputFormat.SVG:
-                file = os.path.join(self.__options.get_output_path(), "classes.svg")
+                file = os.path.join(self.__options.get_output_path(), "design.svg")
                 with open(file, "wb") as handle:
                     handle.write(content)
             case GeneratorOutputFormat.PNG:
-                file = os.path.join(self.__options.get_output_path(), "classes.png")
+                file = os.path.join(self.__options.get_output_path(), "design.png")
                 with open(file, "wb") as handle:
                     handle.write(content)
             case GeneratorOutputFormat.SOURCE:
-                file = os.path.join(self.__options.get_output_path(), "classes.source")
+                file = os.path.join(self.__options.get_output_path(), "design.source")
                 with open(file, "w") as handle:
                     handle.write(content)

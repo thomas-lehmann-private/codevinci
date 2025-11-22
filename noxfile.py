@@ -89,7 +89,7 @@ def generate_classes_view(session):
         "--package-path",
         "codevinci",
         "--output-format",
-        "PNG",
+        "SVG",
         env=ENV,
     )
 
@@ -101,6 +101,24 @@ def pdoc(session: nox.Session):
     session.install("pdoc")
     install_dependencies(session)
     session.run("pdoc", "codevinci", "-o", "build/docs/html", env=ENV)
+
+
+@nox.session
+def mkdocs(session: nox.Session):
+    session.install(
+        'mkdocs',
+        'mkdocstrings',
+        'mkdocs-material',
+        'mkdocs-jupyter',
+        'mkdocs-autolinks-plugin',
+        'jupyter'
+    )
+    session.run(
+        'mkdocs',
+        'build',
+        '--site-dir',
+        'build/mkdocs',
+        env=ENV)
 
 
 @nox.session

@@ -1,0 +1,29 @@
+site_name: codevinci
+repo_url: https://github.com/thomas-lehmann-private/codevinci
+site_author: Thomas Lehmann
+site_description: tool for visualizing code design
+
+nav:
+  - index.md
+  - build-system.md
+
+theme:
+  name: "material"
+
+markdown_extensions:
+  - pymdownx.magiclink
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path:
+        - docs/examples
+  - pymdownx.superfences
+  - toc:
+      permalink: True
+
+plugins:
+  - search
+  - mkdocstrings
+  - mkdocs-jupyter
+  - autolinks
