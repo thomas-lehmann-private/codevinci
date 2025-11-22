@@ -159,3 +159,9 @@ def clean(session: nox.Session) -> None:
         session (nox.Session): nox session.
     """
     session.run("git", "clean", "-fdX")
+
+
+@nox.session(default=False)
+def logo(session: nox.Session) -> None:
+    session.install('svgwrite', 'cairosvg')
+    session.run('python', 'scripts/logo.py')

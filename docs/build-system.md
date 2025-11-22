@@ -7,7 +7,6 @@ Everything starts with a build tool. I'm using **nox** (see [https://nox.thea.co
 ```python
 """Module noxfile."""
 
-import tomllib
 from pathlib import Path
 
 import nox
@@ -80,7 +79,6 @@ The tool is for static code analysis. See [https://docs.astral.sh/ruff/](https:/
 @nox.session
 def ruff(session: nox.Session):
     """Run ruff static code analysis."""
-    # read here: https://docs.astral.sh/ruff/
     session.install("ruff")
     session.run("ruff", "check", env=ENV)
 ```
@@ -94,7 +92,7 @@ This is also a static code analysis. See [https://microsoft.github.io/pyright/#/
 def pyright(session: nox.Session):
     """Run pyright static code analysis."""
     session.install("pyright", "nox")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run("pyright", env=ENV)
 ```
 
@@ -132,7 +130,7 @@ The tool does generate HTML as source code documentation. See [https://pdoc3.git
 def pdoc(session: nox.Session):
     """Generating HTML documentation."""
     session.install("pdoc")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run("pdoc", "codevinci", "-o", "build/docs/html", env=ENV)
 ```
 
@@ -171,7 +169,7 @@ really running isolated. See [https://docs.pytest.org/en/stable/](https://docs.p
 def pytest(session: nox.Session):
     """Running unittests."""
     session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     session.run(
         "pytest",
         "codevinci",
@@ -197,7 +195,7 @@ It is to run some benchmarks. See [https://github.com/CodSpeedHQ/pytest-codspeed
 def codspeed(session: nox.Session):
     """Running codspeed."""
     session.install("pytest", "pytest-codspeed")
-    install_dependencies(session)
+    session.install('-r', 'requirements.txt')
     # separate run for code speed
     session.run("pytest", "tests", "--codspeed", env=ENV)
 ```

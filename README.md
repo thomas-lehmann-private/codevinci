@@ -2,6 +2,8 @@
 [![codecov](https://codecov.io/gh/thomas-lehmann-private/codevinci/graph/badge.svg?token=YXI9F79GID)](https://codecov.io/gh/thomas-lehmann-private/codevinci)
 [![documentation](https://img.shields.io/badge/documentation-ok-%2300ff00)](https://thomas-lehmann-private.github.io/codevinci)
 
+![logo](docs/logo.svg)
+
 ## What is CodeVinci?
 
 CodeVinci is a Python source code analysis tool designed to generate clear, expressive diagrams of your project’s internal structure. By parsing Python modules, it extracts and visualizes:
