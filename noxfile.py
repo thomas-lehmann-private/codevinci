@@ -163,5 +163,6 @@ def clean(session: nox.Session) -> None:
 
 @nox.session(default=False)
 def logo(session: nox.Session) -> None:
+    """Generating logo on demand."""
     session.install('svgwrite', 'cairosvg')
     session.run('python', 'scripts/logo.py')
