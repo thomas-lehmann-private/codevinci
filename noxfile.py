@@ -97,6 +97,7 @@ def pdoc(session: nox.Session):
 
 @nox.session
 def mkdocs(session: nox.Session):
+    """Running mkdocs for generating HTML documentation based on markdown."""
     session.install(
         'mkdocs',
         'mkdocstrings',
