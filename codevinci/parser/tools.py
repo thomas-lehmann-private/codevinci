@@ -62,7 +62,7 @@ class ParserTools:
             the ast node for the found class.
 
         Example:
-            >>> nodes = list(ParserTools.find_all_classes('.'))
+            >>> nodes = list(ParserTools.find_all_classes('codevinci'))
             >>> names = [node.name for _, node in nodes]
             >>> assert 'ParserTools' in names
         """

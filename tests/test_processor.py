@@ -18,9 +18,9 @@ import pytest
 @pytest.mark.parametrize(
     "fmt,expected_filename,write_mode",
     [
-        (GeneratorOutputFormat.SVG, "classes.svg", "wb"),
-        (GeneratorOutputFormat.PNG, "classes.png", "wb"),
-        (GeneratorOutputFormat.SOURCE, "classes.source", "w"),
+        (GeneratorOutputFormat.SVG, "design.svg", "wb"),
+        (GeneratorOutputFormat.PNG, "design.png", "wb"),
+        (GeneratorOutputFormat.SOURCE, "design.source", "w"),
     ],
 )
 def test_generator_with_graphviz_check_write(
