@@ -4,8 +4,8 @@ from pathlib import Path
 
 import nox
 
-FILES = "noxfile.py", "pycodevinci.py", "codevinci"
-FILES_WITH_TESTS = "noxfile.py", "pycodevinci.py", "codevinci", "tests"
+FILES = "noxfile.py", "codevinci"
+FILES_WITH_TESTS = "noxfile.py", "codevinci", "tests"
 
 ENV = {"PYTHONPATH": str(Path.cwd())}
 
@@ -51,7 +51,7 @@ def pyright(session: nox.Session):
     """Run pyright static code analysis."""
     # read here: https://microsoft.github.io/pyright/#/
     session.install("pyright", "nox")
-    session.install('-r', 'requirements.txt')
+    session.install("-r", "requirements.txt")
     session.run("pyright", env=ENV)
 
 
@@ -74,14 +74,13 @@ def interrogate(session: nox.Session):
 @nox.session(python=["3.12", "3.13"], default=False)
 def generate_classes_view(session):
     """Generate the class view of the package itself."""
-    session.install('-r', 'requirements.txt')
+    session.install(".")
     session.run(
-        "python",
-        "pycodevinci.py",
+        "codevinci",
         "--package-path",
         "codevinci",
         "--output-format",
-        "SVG",
+        "PNG",
         env=ENV,
     )
 
@@ -91,7 +90,7 @@ def pdoc(session: nox.Session):
     """Generating HTML documentation."""
     # read here: https://pdoc3.github.io/pdoc/
     session.install("pdoc")
-    session.install('-r', 'requirements.txt')
+    session.install("-r", "requirements.txt")
     session.run("pdoc", "codevinci", "-o", "build/docs/html", env=ENV)
 
 
@@ -99,26 +98,21 @@ def pdoc(session: nox.Session):
 def mkdocs(session: nox.Session):
     """Running mkdocs for generating HTML documentation based on markdown."""
     session.install(
-        'mkdocs',
-        'mkdocstrings',
-        'mkdocs-material',
-        'mkdocs-jupyter',
-        'mkdocs-autolinks-plugin',
-        'jupyter'
+        "mkdocs",
+        "mkdocstrings",
+        "mkdocs-material",
+        "mkdocs-jupyter",
+        "mkdocs-autolinks-plugin",
+        "jupyter",
     )
-    session.run(
-        'mkdocs',
-        'build',
-        '--site-dir',
-        'build/mkdocs',
-        env=ENV)
+    session.run("mkdocs", "build", "--site-dir", "build/mkdocs", env=ENV)
 
 
 @nox.session
 def pytest(session: nox.Session):
     """Running unittests."""
     session.install("pytest", "pytest-cov", "pytest-randomly", "pytest-codspeed")
-    session.install('-r', 'requirements.txt')
+    session.install("-r", "requirements.txt")
     session.run(
         "pytest",
         "codevinci",
@@ -139,7 +133,7 @@ def pytest(session: nox.Session):
 def codspeed(session: nox.Session):
     """Running codspeed."""
     session.install("pytest", "pytest-codspeed")
-    session.install('-r', 'requirements.txt')
+    session.install("-r", "requirements.txt")
     # separate run for code speed
     session.run("pytest", "tests", "--codspeed", env=ENV)
 
@@ -164,5 +158,5 @@ def clean(session: nox.Session) -> None:
 @nox.session(default=False)
 def logo(session: nox.Session) -> None:
     """Generating logo on demand."""
-    session.install('svgwrite', 'cairosvg')
-    session.run('python', 'scripts/logo.py')
+    session.install("svgwrite", "cairosvg")
+    session.run("python", "scripts/logo.py")

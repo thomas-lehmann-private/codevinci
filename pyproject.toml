@@ -28,6 +28,9 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
 ]
 
+[project.scripts]
+codevinci = "codevinci.script:main"
+
 [project.urls]
 Repository = "https://github.com/thomas-lehmann-private/codevinci.git"
 Issues = "https://github.com/thomas-lehmann-private/codevinci/issues"

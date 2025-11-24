@@ -22,7 +22,25 @@ def initialize_logging():
     logging.getLogger().addHandler(handler)
 
 
-# TODO: Installer (wheel); schauen wie das mit dem Script funktioniert.
+def real_main(**options):
+    """Application entry point."""
+    initialize_logging()
+    # ensure that path does exist
+    os.makedirs(options["output_path"], exist_ok=True)
+
+    generator_options = GeneratorOptions(
+        options["output_format"], options["output_path"]
+    )
+
+    color_config = generator_options.get_color_config()
+    for entry in options["color"]:
+        if ":" not in entry:
+            raise click.UsageError("Use --color key:#rrggbb")
+        key, value = entry.split(":", 1)
+        color_config.apply_override(key.strip(), value.strip())
+
+    processor = Processor(generator_options)
+    processor.process(options["package_path"])
 
 
 @click.command()
@@ -46,23 +64,7 @@ def initialize_logging():
 )
 def main(**options):
     """Application entry point."""
-    initialize_logging()
-    # ensure that path does exist
-    os.makedirs(options["output_path"], exist_ok=True)
-
-    generator_options = GeneratorOptions(
-        options["output_format"], options["output_path"]
-    )
-
-    color_config = generator_options.get_color_config()
-    for entry in options["color"]:
-        if ":" not in entry:
-            raise click.UsageError("Use --color key:#rrggbb")
-        key, value = entry.split(":", 1)
-        color_config.apply_override(key.strip(), value.strip())
-
-    processor = Processor(generator_options)
-    processor.process(options["package_path"])
+    real_main(**options)
 
 
 if __name__ == "__main__":

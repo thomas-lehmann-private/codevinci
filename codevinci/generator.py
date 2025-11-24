@@ -111,7 +111,11 @@ class GraphvizClassGenerator(AbstractClassGenerator):
         """Main entry point for processing modules."""
         dot = graphviz.Digraph("classes", comment="classes and relationships")
         now = datetime.now().strftime("%Y-%m-%d %H:%M")
-        dot.attr('graph', label=f"""<<font point-size="50px">Design of classes</font><br/><br/>generated on {now}>""", labelloc='t')
+        dot.attr(
+            "graph",
+            label=f"""<<font point-size="50px">Design of classes</font><br/><br/>generated on {now}>""",
+            labelloc="t",
+        )
 
         for moduleModel in moduleModels:
             self.__logger.info(f"processing module '{moduleModel.get_name()}'")
