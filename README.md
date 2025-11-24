@@ -29,6 +29,19 @@ Similarly, CodeVinci aims to:
 
 The name reflects the tool’s mission: turning Python code into insightful, visually structured representations, much like da Vinci’s ability to transform ideas into iconic diagrams.
 
+# Quick Start
+
+**Please note**: It will be available on PyPI when all features for first release are complete.
+
+## Example usage with nox and Github
+
+```python
+@nox.session
+def codevinci_help(session):
+    session.install("git+https://github.com/thomas-lehmann-private/codevinci.git@main")
+    session.run("codevinci", "--help")
+```
+
 ## Codevinci Design
 
 Current design (work still in progress):
