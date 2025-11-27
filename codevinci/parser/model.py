@@ -15,6 +15,7 @@ class ModelType(Enum):
     METHOD_ARGUMENT = auto()
     DEPENDENCY = auto()
     INSTANCE_ATTRIBUTE = auto()
+    CLASS_ATTRIBUTE = auto()
 
 
 class DependencyType(Enum):
@@ -71,6 +72,36 @@ class AbstractBaseModel(ABC):
         ...
 
 
+class ClassAttributeModel(AbstractBaseModel):
+    """Model for representing class attributes."""
+
+    def __init__(self, name: str) -> None:
+        """Initialize ClassAttributeModel instance."""
+        self.__name = name
+
+    def __repr__(self):
+        """String representation of ClassAttributeModel instance."""
+        return f"ClassAttributeModel({self.__name})"
+
+    def __eq__(self, other) -> bool:
+        """Compare to modules to be equal."""
+        if not isinstance(other, ClassAttributeModel):
+            raise NotImplementedError
+        return self.__name == other.__name
+
+    def get_model_type(self) -> ModelType:
+        """Get type of model."""
+        return ModelType.CLASS_ATTRIBUTE
+
+    def get_name(self) -> str:
+        """Name of the class."""
+        return self.__name
+
+    def get_origin(self) -> Origin:
+        """Get location of the attribute."""
+        return Origin.CLASS
+
+
 class ClassModel(AbstractBaseModel):
     """Model for a class."""
 
@@ -84,6 +115,7 @@ class ClassModel(AbstractBaseModel):
         self.__bases: list[DependencyModel] = []
         self.__origin: Origin = origin
         self.__attributes: list[InstanceAttributeModel] = []
+        self.__class_attributes: list[ClassAttributeModel] = []
 
     def __repr__(self):
         """String representation of ClassModel instance."""
@@ -179,6 +211,20 @@ class ClassModel(AbstractBaseModel):
             if base.get_destination_model().get_name() == "Enum":
                 return True
         return False
+
+    def add_class_attribute(self, attribute: ClassAttributeModel) -> None:
+        """Add instance attribute to class."""
+        if attribute not in self.__class_attributes:
+            self.__class_attributes.append(attribute)
+            self.__logger.info(f"{attribute} added to {self}")
+
+    def get_class_attributes(self) -> list[ClassAttributeModel]:
+        """Provide list of class attributes."""
+        return self.__class_attributes
+
+    def has_class_attributes(self) -> bool:
+        """Check whether there are class attributes."""
+        return len(self.__class_attributes) > 0
 
 
 class ModuleModel(AbstractBaseModel):

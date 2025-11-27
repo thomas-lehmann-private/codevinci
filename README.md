@@ -29,11 +29,11 @@ Similarly, CodeVinci aims to:
 
 The name reflects the tool’s mission: turning Python code into insightful, visually structured representations, much like da Vinci’s ability to transform ideas into iconic diagrams.
 
-# Quick Start
+## Quick Start
 
 **Please note**: It will be available on PyPI when all features for first release are complete.
 
-## Example usage with nox and Github
+### Example usage with nox and Github
 
 ```python
 @nox.session

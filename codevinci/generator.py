@@ -32,6 +32,7 @@ class ColorConfig:
 
     title_color: str = "#ADFF2F"
     attributes_color: str = "#FFECC6"
+    class_attributes_color: str = "#F3CB7A"
 
     public_methods_color: str = "#DFFFBE"
     protected_methods_color: str = "#3CB371"
@@ -165,6 +166,10 @@ class GraphvizClassGenerator(AbstractClassGenerator):
                 + "</b></td></tr>"
             )
 
+        attributes_description = self.__get_class_attributes_description(classModel)
+        if attributes_description:
+            description += "<tr><td>" + attributes_description + "</td></tr>"
+
         attributes_description = self.__get_attributes_description(classModel)
         if attributes_description:
             description += "<tr><td>" + attributes_description + "</td></tr>"
@@ -244,6 +249,19 @@ class GraphvizClassGenerator(AbstractClassGenerator):
             instance_attributes_description += "</table>"
 
         return instance_attributes_description
+
+    def __get_class_attributes_description(self, classModel: ClassModel) -> str:
+        """Generate class attributes for classes in diagramm."""
+        class_attributes_description = ""
+        if classModel.has_class_attributes():
+            color = self.__options.get_color_config().class_attributes_color
+            class_attributes_description = f"""<table border="0" cellborder="0" cellspacing="0" bgcolor="{color}">"""
+            for attributeModel in classModel.get_class_attributes():
+                class_attributes_description += '<tr><td align="left">'
+                class_attributes_description += attributeModel.get_name()
+                class_attributes_description += "</td></tr>"
+            class_attributes_description += "</table>"
+        return class_attributes_description
 
     def __get_method_description(
         self, classModel: ClassModel, access_type: MethodAccessType

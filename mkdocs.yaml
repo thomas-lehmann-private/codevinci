@@ -8,7 +8,7 @@ site_author: Thomas Lehmann
 
 nav:
   - index.md
-  - quick-start-md
+  - quick-start.md
   - build-system.md
 
 theme:

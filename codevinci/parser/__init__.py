@@ -2,6 +2,7 @@
 
 from .model import (
     ClassModel,
+    ClassAttributeModel,
     DependencyModel,
     DependencyType,
     MethodModel,
@@ -21,6 +22,7 @@ __all__ = [
     "Parser",
     "ParserTools",
     "ClassModel",
+    "ClassAttributeModel",
     "DependencyModel",
     "DependencyType",
     "MethodModel",

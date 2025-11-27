@@ -116,7 +116,9 @@ class ParserTools:
         return return_type, names
 
     @staticmethod
-    def find_all_instance_attributes(node: ast.FunctionDef):
+    def find_all_instance_attributes(
+        node: ast.FunctionDef,
+    ) -> Generator[Tuple[str, str, list[str]], None, None]:
         """Provide all instance attributes of a class."""
         if node.name == "__init__":
             for child_node in ast.iter_child_nodes(node):
@@ -139,6 +141,23 @@ class ParserTools:
                     )
 
                 yield attribute_name, attribute_type, names
+
+    @staticmethod
+    def find_all_class_attributes(node: ast.ClassDef) -> Generator[str, None, None]:
+        """Find all class attributes."""
+        child_nodes = [
+            child_node
+            for child_node in ast.walk(node)
+            if not isinstance(child_node, ast.FunctionDef)
+            and not isinstance(child_node, ast.ClassDef)
+        ]
+
+        for child_node in child_nodes:
+            if not isinstance(child_node, ast.Assign):
+                continue
+            if not isinstance(child_node.targets[0], ast.Name):
+                continue
+            yield child_node.targets[0].id
 
     @staticmethod
     def is_abstract_method(node: ast.FunctionDef) -> bool:

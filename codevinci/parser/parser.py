@@ -6,6 +6,7 @@ from typing import Generator, Iterable
 from .tools import ParserTools
 from .model import (
     AbstractBaseModel,
+    ClassAttributeModel,
     ClassModel,
     InstanceAttributeModel,
     DependencyModel,
@@ -54,6 +55,8 @@ class Parser:
         self.parse_bases()
         # now parse all instance attributes of a class for all classes
         self.parse_instance_attributes()
+        # now parse all class attributes
+        self.parse_class_attributes()
         # provide final results
         return self.__moduleModels
 
@@ -131,6 +134,18 @@ class Parser:
                             DependencyType.INSTANCE_ATTRIBUTE_TYPE,
                         ):
                             instanceAttributeModel.add_dependency(dependency)
+
+    def parse_class_attributes(self) -> None:
+        """Parse class attributes and register it to the relating class."""
+        for parsedClass in self.__parsedClasses:
+            classModel = parsedClass["model"]
+            classNode = parsedClass["node"]
+
+            if not classModel.is_enum():
+                continue
+
+            for name in ParserTools.find_all_class_attributes(classNode):
+                classModel.add_class_attribute(ClassAttributeModel(name))
 
     def parse_bases(self) -> None:
         """Parse for base class and register it as dependency to the relating class."""

@@ -2,6 +2,7 @@
 
 from codevinci.parser import (
     ClassModel,
+    ClassAttributeModel,
     DependencyModel,
     DependencyType,
     MethodModel,
@@ -23,6 +24,8 @@ def test_class_model_basics():
     assert model.get_origin() == Origin.PACKAGE
     assert len(model.get_methods()) == 0
     assert len(model.get_bases()) == 0
+    assert not model.has_attributes()
+    assert not model.has_class_attributes()
     assert not model.has_methods()
     assert str(model) == "ClassModel(test)"
 
@@ -61,6 +64,31 @@ def test_class_model_with_multiple_methods():
     methods = model.get_methods_by_access_type(MethodAccessType.PRIVATE)
     assert len(methods) == 1
     assert methods[0].get_name() == "__get_value"
+
+
+def test_class_model_with_class_attributes():
+    """Testing class attributes."""
+    model = ClassModel("ModelType")
+    model.add_class_attribute(ClassAttributeModel("MODULE"))
+    model.add_class_attribute(ClassAttributeModel("MODULE"))
+    model.add_class_attribute(ClassAttributeModel("CLASS"))
+    assert model.has_class_attributes()
+    class_attributes = model.get_class_attributes()
+    assert len(class_attributes) == 2
+    assert class_attributes[0].get_name() == "MODULE"
+    assert class_attributes[1].get_name() == "CLASS"
+
+
+def test_class_attributes_model():
+    """Testing class ClassAttributesModel."""
+    model = ClassAttributeModel("MODULE")
+    assert model.get_name() == "MODULE"
+    assert model.get_model_type() == ModelType.CLASS_ATTRIBUTE
+    assert model.get_origin() == Origin.CLASS
+    assert model == ClassAttributeModel("MODULE")
+
+    with pytest.raises(NotImplementedError):
+        model == ClassModel("ModelType")  # pyright: ignore[reportUnusedExpression]
 
 
 def test_method_model_basics():
