@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://thomas-lehmann-private.github.io/codevinci/</loc>
-         <lastmod>2025-11-24</lastmod>
+         <lastmod>2025-11-27</lastmod>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/codevinci/build-system/</loc>
-         <lastmod>2025-11-24</lastmod>
+         <lastmod>2025-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://thomas-lehmann-private.github.io/codevinci/quick-start/</loc>
+         <lastmod>2025-11-27</lastmod>
     </url>
 </urlset>
