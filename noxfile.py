@@ -77,10 +77,11 @@ def generate_classes_view(session):
     session.install(".")
     session.run(
         "codevinci",
+        "design",
         "--package-path",
         "codevinci",
         "--output-format",
-        "PNG",
+        "SVG",
         env=ENV,
     )
 

@@ -4,7 +4,7 @@ import builtins
 from unittest.mock import mock_open
 import xml.etree.ElementTree as ET
 
-from codevinci.script import real_main
+from codevinci.script import real_design
 from codevinci.generator import GeneratorOutputFormat
 
 
@@ -32,7 +32,7 @@ def test_script_basics(monkeypatch):
 
     monkeypatch.setattr("builtins.open", fake_open)
 
-    real_main(
+    real_design(
         **{
             "output_path": "docs",
             "output_format": GeneratorOutputFormat.SVG,

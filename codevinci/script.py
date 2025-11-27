@@ -10,6 +10,27 @@ from codevinci.generator import GeneratorOptions, GeneratorOutputFormat
 import click
 
 
+@click.group
+def main():
+    """
+    CodeVinci is a Python source code analysis tool designed to generate clear, expressive diagrams of your project’s internal structure. By parsing Python modules, it extracts and visualizes:
+
+    - Module relationships\n
+    - Class hierarchies\n
+    - Instance attributes\n
+    - Methods and their arguments\n
+    - Inter-module and inter-class dependencies\n
+
+    The goal is to provide a powerful, modern alternative to tools like
+    pdoc and pyreverse, with rich visual output, color-coded information
+    layers, and an emphasis on intuitive understanding of complex codebases.
+
+    In the future, CodeVinci will also support HTML documentation generation,
+    using the same analysis engine to produce cohesive, navigable documentation
+    for entire Python projects.
+    """
+
+
 def initialize_logging():
     """Initialize logging."""
     format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -22,8 +43,8 @@ def initialize_logging():
     logging.getLogger().addHandler(handler)
 
 
-def real_main(**options):
-    """Application entry point."""
+def real_design(**options):
+    """Implement the design part of the tool."""
     initialize_logging()
     # ensure that path does exist
     os.makedirs(options["output_path"], exist_ok=True)
@@ -43,7 +64,7 @@ def real_main(**options):
     processor.process(options["package_path"])
 
 
-@click.command()
+@main.command("design")
 @click.option("--package-path", help="root path to the packages")
 @click.option(
     "--output-format",
@@ -62,9 +83,9 @@ def real_main(**options):
     multiple=True,
     help="Override colors, e.g. --color <name>:#ffeeaa (read doc)",
 )
-def main(**options):
-    """Application entry point."""
-    real_main(**options)
+def design(**options):
+    """Generate diagram from Python code."""
+    real_design(**options)
 
 
 if __name__ == "__main__":
