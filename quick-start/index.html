@@ -502,17 +502,23 @@
 <p><strong>Please note</strong>: It will be available on PyPI when all features for first release are complete.</p>
 <h2 id="example-usage-with-nox-and-github">Example usage with nox and Github<a class="headerlink" href="#example-usage-with-nox-and-github" title="Permanent link">&para;</a></h2>
 <h3 id="does-require-git">Does require git<a class="headerlink" href="#does-require-git" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@nox</span><span class="o">.</span><span class="n">session</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">codevinci_help</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;git+https://github.com/thomas-lehmann-private/codevinci.git@main&#39;</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;codevinci&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">session in noxfile.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nd">@nox</span><span class="o">.</span><span class="n">session</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">codevinci_help</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;git+https://github.com/thomas-lehmann-private/codevinci.git@main&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;codevinci&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
 <h3 id="does-not-require-git">Does not require git<a class="headerlink" href="#does-not-require-git" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@nox</span><span class="o">.</span><span class="n">session</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">codevinci_help</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;https://github.com/thomas-lehmann-private/codevinci/archive/refs/heads/main.zip&#39;</span><span class="p">)</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;codevinci&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">session in noxfile.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nd">@nox</span><span class="o">.</span><span class="n">session</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">codevinci_help</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">nox</span><span class="o">.</span><span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="n">session</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">&#39;https://github.com/thomas-lehmann-private/codevinci/archive/refs/heads/main.zip&#39;</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;codevinci&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
 
 
 
@@ -562,7 +568,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.select", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
