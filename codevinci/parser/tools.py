@@ -122,13 +122,11 @@ class ParserTools:
         """Provide all instance attributes of a class."""
         if node.name == "__init__":
             for child_node in ast.iter_child_nodes(node):
-                if not isinstance(child_node, ast.AnnAssign):
-                    continue
-                if not isinstance(child_node.target, ast.Attribute):
-                    continue
-                if not isinstance(child_node.target.value, ast.Name):
-                    continue
-                if not child_node.target.value.id == "self":
+                if not (
+                    isinstance(child_node, ast.AnnAssign) and \
+                    isinstance(child_node.target, ast.Attribute) and \
+                    isinstance(child_node.target.value, ast.Name) and \
+                    child_node.target.value.id == "self"):
                     continue
 
                 attribute_name: str = child_node.target.attr

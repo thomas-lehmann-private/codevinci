@@ -10,7 +10,23 @@ from codevinci.generator import GeneratorOptions, GeneratorOutputFormat
 import click
 
 
+def print_version(ctx, param, value):
+    """Print tool version."""
+    if not value or ctx.resilient_parsing:
+        return
+    click.echo("codevinci v1.0.0")
+    ctx.exit()
+
+
 @click.group
+@click.option(
+    "--version",
+    is_flag=True,
+    callback=print_version,
+    expose_value=False,
+    is_eager=True,
+    help="print version of this tool (and library)",
+)
 def main():
     """
     CodeVinci is a Python source code analysis tool designed to generate clear, expressive diagrams of your project’s internal structure. By parsing Python modules, it extracts and visualizes:

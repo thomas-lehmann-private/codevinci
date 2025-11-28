@@ -1,4 +1,5 @@
 """Test of parser tools."""
+import ast
 
 from codevinci.parser.tools import ParserTools
 
@@ -75,6 +76,19 @@ def test_find_all_instance_attributes():
     assert result[1][1] == "str"
     assert result[2][0] == "__methods"
     assert result[2][1] == "list[MethodModel]"
+
+
+def test_find_all_instance_attributes_with_no_attributes():
+    """Test for ctor where there is no instance attribute."""
+    tree = ast.parse("""
+class Demo:
+    def __init__(self):
+        message: str = 'hello world!'
+    """)
+
+    node = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)][0]
+    attributes = list(ParserTools.find_all_instance_attributes(node))
+    assert len(attributes) == 0
 
 
 def test_find_all_instance_attributes_benchmark(benchmark):

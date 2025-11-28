@@ -15,6 +15,10 @@ nav:
 theme:
   name: "material"
   logo: logo.png
+  features:
+    - content.code.copy      # Copy button
+    - content.code.select    # Line selection
+    - content.code.annotate  # Code annotations
 
 markdown_extensions:
   - pymdownx.magiclink

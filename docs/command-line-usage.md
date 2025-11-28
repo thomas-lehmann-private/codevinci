@@ -29,7 +29,8 @@ Usage: codevinci [OPTIONS] COMMAND [ARGS]...
   for entire Python projects.
 
 Options:
-  --help  Show this message and exit.
+  --version  print version of this tool (and library)
+  --help     Show this message and exit.
 
 Commands:
   design  Generate diagram from Python code.

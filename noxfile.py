@@ -71,21 +71,6 @@ def interrogate(session: nox.Session):
     session.run("interrogate", "-v", "--fail-under=100", *FILES_WITH_TESTS, env=ENV)
 
 
-@nox.session(python=["3.12", "3.13"], default=False)
-def generate_classes_view(session):
-    """Generate the class view of the package itself."""
-    session.install(".")
-    session.run(
-        "codevinci",
-        "design",
-        "--package-path",
-        "codevinci",
-        "--output-format",
-        "SVG",
-        env=ENV,
-    )
-
-
 @nox.session
 def pdoc(session: nox.Session):
     """Generating HTML documentation."""
@@ -128,6 +113,10 @@ def pytest(session: nox.Session):
         "--junit-xml=unitTests.xml",
         env=ENV,
     )
+    # remove old report
+    session.run("rm", "-rf", "./build/htmlcov", external=True)
+    # move new report under build
+    session.run("mv", "./htmlcov", "./build", external=True)
 
 
 @nox.session
@@ -161,3 +150,10 @@ def logo(session: nox.Session) -> None:
     """Generating logo on demand."""
     session.install("svgwrite", "cairosvg")
     session.run("python", "scripts/logo.py")
+
+
+@nox.session(default=False)
+def run(session):
+    """Run the codevinci script."""
+    session.install(".")
+    session.run("codevinci", *session.posargs, env=ENV)
