@@ -53,10 +53,11 @@ class ColorConfig:
 class GeneratorOptions:
     """Options for a concrete generator."""
 
-    def __init__(self, output_format: GeneratorOutputFormat, output_path: str):
+    def __init__(self, output_format: GeneratorOutputFormat, output_path: str, name: str):
         """Initialize generator options."""
         self.__output_format = output_format
         self.__output_path = output_path
+        self.__name = name
         self.__color_config = ColorConfig()
         self.__aggregated_dependencies = False
 
@@ -67,6 +68,10 @@ class GeneratorOptions:
     def get_output_path(self) -> str:
         """Get defined output path."""
         return self.__output_path
+    
+    def get_name(self) -> str:
+        """Get name of file without extension."""
+        return self.__name
 
     def get_color_config(self) -> ColorConfig:
         """Get color config."""

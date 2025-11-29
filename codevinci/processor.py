@@ -48,19 +48,21 @@ class Processor:
 
     def __write_content(self, content: Any) -> None:
         """Write content to file depending on output format."""
+        name = self.__options.get_name()
+
         match self.__options.get_output_format():
             case GeneratorOutputFormat.SVG:
-                file = os.path.join(self.__options.get_output_path(), "design.svg")
+                file = os.path.join(self.__options.get_output_path(), f"{name}.svg")
                 self.__logger.info(f"Writing diagram as {file}")
                 with open(file, "wb") as handle:
                     handle.write(content)
             case GeneratorOutputFormat.PNG:
-                file = os.path.join(self.__options.get_output_path(), "design.png")
+                file = os.path.join(self.__options.get_output_path(), f"{name}.svg")
                 self.__logger.info(f"Writing diagram as {file}")
                 with open(file, "wb") as handle:
                     handle.write(content)
             case GeneratorOutputFormat.SOURCE:
-                file = os.path.join(self.__options.get_output_path(), "design.source")
+                file = os.path.join(self.__options.get_output_path(), f"{name}.svg")
                 self.__logger.info(f"Writing diagram as {file}")
                 with open(file, "w") as handle:
                     handle.write(content)

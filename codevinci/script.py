@@ -67,7 +67,7 @@ def real_design(**options):
     os.makedirs(options["output_path"], exist_ok=True)
 
     generator_options = GeneratorOptions(
-        options["output_format"], options["output_path"]
+        options["output_format"], options["output_path"], options["name"]
     )
 
     generator_options.set_aggregated_dependencies(options["aggregated_dependencies"])
@@ -100,6 +100,11 @@ def real_design(**options):
     type=str,
     default=str(Path.joinpath(Path.cwd(), "docs")),
     help="where to write the classes diagramm to (default: current path)",
+)
+@click.option(
+    "--name",
+    default="design",
+    help="name of the generated output file (without extension)"
 )
 @click.option(
     "--color",
