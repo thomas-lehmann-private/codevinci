@@ -80,3 +80,44 @@ def test_generator_with_graphviz_for_svg(monkeypatch):
     result = written_data.get("data")
     root = ET.fromstring(result.decode("utf-8"))
     assert root.tag.endswith("svg")
+
+
+def test_generator_with_graphviz_for_source_from_string(monkeypatch):
+    """Testing of processor usage."""
+    written_data = {}
+
+    real_open = builtins.open
+
+    def fake_open(*args, **kwargs):
+        """A faked open for the processor itself."""
+        mode = args[1] if len(args) > 1 else kwargs.get("mode", "r")
+
+        # 👉 the processor is the only one that does write files
+        if "w" in mode or "b" in mode:
+            mocked_open = mock_open()
+            handle = mocked_open()
+            original_write = handle.write
+
+            def fake_write(data):
+                """Fake of write."""
+                written_data["data"] = data
+                return original_write(data)
+
+            handle.write = fake_write
+            return handle
+
+        # 👉 allow all other 'open' to be real (example: Parser)
+        return real_open(*args, **kwargs)
+
+    monkeypatch.setattr("builtins.open", fake_open)
+
+    options = GeneratorOptions(GeneratorOutputFormat.SOURCE, ".")
+    processor = Processor(options)
+
+    with open("codevinci/processor.py") as handle:
+        processor.process_string(handle.read())
+
+    result = written_data.get("data")
+
+    assert str(result).find("Processor") >= 0
+    assert str(result).find("ParserTools") == -1

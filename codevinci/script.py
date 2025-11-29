@@ -2,6 +2,7 @@
 
 import logging
 import os
+import sys
 from pathlib import Path
 
 from codevinci.processor import Processor
@@ -79,7 +80,11 @@ def real_design(**options):
         color_config.apply_override(key.strip(), value.strip())
 
     processor = Processor(generator_options)
-    processor.process(options["package_path"])
+
+    if options["stdin"]:
+        processor.process_string(sys.stdin.read())
+    else:
+        processor.process(options["package_path"])
 
 
 @main.command("design")
@@ -105,6 +110,11 @@ def real_design(**options):
     "--aggregated-dependencies",
     is_flag=True,
     help="reduce dependencies to class to class",
+)
+@click.option(
+    "--stdin",
+    is_flag=True,
+    help="reading code from stdin",
 )
 def design(**options):
     """Generate diagram from Python code."""

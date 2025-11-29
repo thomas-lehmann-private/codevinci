@@ -60,6 +60,32 @@ class Parser:
         # provide final results
         return self.__moduleModels
 
+    def parse_string(self, code: str) -> list[ModuleModel]:
+        """Parse code (can be used to get diagram from text or one file)."""
+        moduleModel = ModuleModel("from code")
+        self.__moduleModels.append(moduleModel)
+
+        # first get all classes
+        for node in ParserTools.find_all_classes_from_string(code):
+            # generate the class and add it to the model
+            classModel = ClassModel(node.name)
+            self.__logger.info(f"adding class {classModel.get_name()}")
+            moduleModel.add_class(classModel)
+            self.__parsedClasses.append(
+                {"name": node.name, "node": node, "model": classModel}
+            )
+
+        # now search all methods for all classes
+        self.parse_methods()
+        # now parse all base class dependencies
+        self.parse_bases()
+        # now parse all instance attributes of a class for all classes
+        self.parse_instance_attributes()
+        # now parse all class attributes
+        self.parse_class_attributes()
+        # provide final results
+        return self.__moduleModels
+
     def create_dependencies(
         self,
         names: Iterable[str],

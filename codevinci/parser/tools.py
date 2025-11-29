@@ -51,6 +51,11 @@ class ParserTools:
             return ast.parse(handle.read(), filename=path)
 
     @staticmethod
+    def from_string(code: str) -> Any:
+        """Parse ast from string."""
+        return ast.parse(code)
+
+    @staticmethod
     def find_all_classes(path: str) -> Generator[Tuple[str, ast.ClassDef], None, None]:
         """Find all classes for given package path.
 
@@ -71,6 +76,24 @@ class ParserTools:
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
                     yield file, node
+
+    @staticmethod
+    def find_all_classes_from_string(code: str) -> Generator[ast.ClassDef, None, None]:
+        """Find all classes from a string.
+
+        Args:
+            code the code to parse
+
+        Example:
+            >>> with open(__file__) as handle:
+            ...     nodes = ParserTools.find_all_classes_from_string(handle.read())
+            ...     names = [node.name for node in nodes]
+            ...     assert names == ['ParserTools']
+        """
+        tree = ParserTools.from_string(code)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                yield node
 
     @staticmethod
     def find_all_methods(node: ast.ClassDef) -> Generator[ast.FunctionDef, None, None]:

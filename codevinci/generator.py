@@ -114,7 +114,9 @@ class GraphvizClassGenerator(AbstractClassGenerator):
 
     def __init__(self, options: GeneratorOptions):
         """Initialize processor."""
-        self.__logger: Logger = getLogger(__name__)
+        self.__logger: Logger = getLogger(
+            f"{self.__class__.__module__}.{self.__class__.__name__}"
+        )
         self.__options = options
         self.__dependencies = []
 
