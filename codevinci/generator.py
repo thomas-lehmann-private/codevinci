@@ -12,6 +12,7 @@ from codevinci.parser import (
     DependencyType,
     MethodAccessType,
     MethodType,
+    ModelType,
     ModuleModel,
 )
 
@@ -57,6 +58,7 @@ class GeneratorOptions:
         self.__output_format = output_format
         self.__output_path = output_path
         self.__color_config = ColorConfig()
+        self.__aggregated_dependencies = False
 
     def get_output_format(self) -> GeneratorOutputFormat:
         """Get defined output type."""
@@ -69,6 +71,14 @@ class GeneratorOptions:
     def get_color_config(self) -> ColorConfig:
         """Get color config."""
         return self.__color_config
+
+    def get_aggregated_dependencies(self) -> bool:
+        """Get whether to show dependencies aggregated."""
+        return self.__aggregated_dependencies
+
+    def set_aggregated_dependencies(self, value: bool) -> None:
+        """Set whether to show dependencies aggregated."""
+        self.__aggregated_dependencies = value
 
 
 class AbstractClassGenerator(ABC):
@@ -122,7 +132,10 @@ class GraphvizClassGenerator(AbstractClassGenerator):
             self.__logger.info(f"processing module '{moduleModel.get_name()}'")
             self.generate_module(dot, moduleModel)
 
-        self.generate_dependencies(dot)
+        if self.__options.get_aggregated_dependencies():
+            self.generate_aggregated_dependencies(dot)
+        else:
+            self.generate_dependencies(dot)
 
         match self.__options.get_output_format():
             case GeneratorOutputFormat.SVG:
@@ -225,6 +238,27 @@ class GraphvizClassGenerator(AbstractClassGenerator):
                     dependency.get_destination_model().get_name(),
                     "depends",
                 )
+
+    def generate_aggregated_dependencies(self, parent: graphviz.graphs.Digraph):
+        """Generate diagram part for aggregated dependencies."""
+        dependencies: dict[ClassModel, set[ClassModel]] = {}
+        # process of aggregation
+        for dependency in self.__dependencies:
+            if dependency.get_destination_model().get_name() in ["Enum", "ABC"]:
+                continue
+            source_model = dependency.get_source_model()
+            if not source_model.get_model_type() == ModelType.CLASS:
+                if source_model.get_owner():
+                    source_model = source_model.get_owner()
+                else:
+                    continue
+            if source_model not in dependencies:
+                dependencies[source_model] = set()
+            dependencies[source_model].add(dependency.get_destination_model())
+
+        for source, destinations in dependencies.items():
+            for destination in destinations:
+                parent.edge(source.get_name(), destination.get_name(), "depends")
 
     def __get_attributes_description(self, classModel: ClassModel) -> str:
         """Generate attrinutes for classes in diagramm."""

@@ -69,6 +69,8 @@ def real_design(**options):
         options["output_format"], options["output_path"]
     )
 
+    generator_options.set_aggregated_dependencies(options["aggregated_dependencies"])
+
     color_config = generator_options.get_color_config()
     for entry in options["color"]:
         if ":" not in entry:
@@ -98,6 +100,11 @@ def real_design(**options):
     "--color",
     multiple=True,
     help="Override colors, e.g. --color <name>:#ffeeaa (read doc)",
+)
+@click.option(
+    "--aggregated-dependencies",
+    is_flag=True,
+    help="reduce dependencies to class to class",
 )
 def design(**options):
     """Generate diagram from Python code."""

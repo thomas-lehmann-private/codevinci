@@ -57,5 +57,6 @@ Options:
                                   (default: current path)
   --color TEXT                    Override colors, e.g. --color <name>:#ffeeaa
                                   (read doc)
+  --aggregated-dependencies       reduce dependencies to class to class
   --help                          Show this message and exit.
 ```

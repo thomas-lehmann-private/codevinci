@@ -38,6 +38,7 @@ def test_script_basics(monkeypatch):
             "output_format": GeneratorOutputFormat.SVG,
             "package_path": "codevinci",
             "color": ["header:#00f000"],
+            "aggregated_dependencies": False
         }
     )
 

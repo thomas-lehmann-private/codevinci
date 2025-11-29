@@ -42,6 +42,7 @@ def test_graphviz_generator_for_source():
     moduleModels = parser.parse(PACKAGE_PATH)
 
     options = GeneratorOptions(GeneratorOutputFormat.SOURCE, str(Path.cwd()))
+    options.set_aggregated_dependencies(True)
     generator = GraphvizClassGenerator(options)
     result = generator.generate(moduleModels)
 
